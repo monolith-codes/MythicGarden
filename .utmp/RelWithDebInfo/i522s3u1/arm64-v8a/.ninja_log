@@ -1,0 +1,10 @@
+# ninja log v5
+27	2423	7677470927682715	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	50b2c263ae784494
+34	2449	7677470927782684	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	d767f909d83f3725
+0	2461	7677470928082660	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	29d9f85bdbe74fd2
+50	2481	7677470928292655	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	9905757edfbb57f4
+13	2599	7677470929452630	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	430ca8614a69953f
+43	2963	7677470933059265	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	e0219be3150a2677
+20	3041	7677470933884785	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	ef0db5ac93d5d0f0
+7	3135	7677470934820464	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	c22c8fd8fb9ccef3
+3135	3999	7677470941760277	C:/Users/locke/MythicPlants/MythicPlants/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/i522s3u1/obj/arm64-v8a/libgame.so	45158d3f95062e9a
