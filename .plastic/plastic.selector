@@ -1,0 +1,3 @@
+repository "MythicPlants/MythicPlants@9072255800001@cloud"
+  path "/"
+    smartbranch "/main/userinterface"
