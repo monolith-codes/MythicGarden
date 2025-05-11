@@ -64,20 +64,17 @@ public class ARTapAndDragObject : MonoBehaviour
     void TrySelectOrPlace(Vector2 touchPosition)
     {
         if (placedObject == null)
-        {
-            // First placement
+        {  
             if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = hits[0].pose;
                 placedObject = Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
                 Debug.Log("Object placed.");
-                DisablePlaneColliders();
                 isObjectSelected = true;
             }
         }
         else
         {
-            // Try selecting the placed object
             Ray ray = Camera.main.ScreenPointToRay(touchPosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -113,7 +110,8 @@ public class ARTapAndDragObject : MonoBehaviour
             Debug.Log("Dragging: no plane detected under touch.");
         }
     }
-    void DisablePlaneColliders()
+    
+    /* void DisablePlaneColliders()
     {
        
         
@@ -135,7 +133,7 @@ public class ARTapAndDragObject : MonoBehaviour
             }
             
             Debug.Log("Disabled colliders on all planes.");
-        }
+        } */
        
         
 }

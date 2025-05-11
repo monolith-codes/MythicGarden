@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8282837141090963067}
   - component: {fileID: 1627407615710304099}
   - component: {fileID: 4709197875911942274}
+  - component: {fileID: 9052097138774011801}
   m_Layer: 0
   m_Name: SackBeispiel
   m_TagString: Untagged
@@ -108,3 +109,16 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9052097138774011801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451908126891139107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32c13b144b4b764692b27e04997c956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SimulatedTiltX: 0
