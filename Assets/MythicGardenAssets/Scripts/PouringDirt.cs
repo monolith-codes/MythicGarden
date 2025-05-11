@@ -1,8 +1,9 @@
+using Unity.Burst;
 using UnityEngine;
 
 public class PouringDirt : MonoBehaviour
 {
-    float SimulatedTiltX = 0f;
+    public float SimulatedTiltX = 0f;
 
     void Start()
     {
@@ -49,7 +50,13 @@ public class PouringDirt : MonoBehaviour
         if (FillDirt.PlacedSack != null)
         {
             FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
-            Debug.Log("Applying tilt: " + tiltX);
+            //Debug.Log("Applying tilt: " + tiltX);
         }
+    }
+    
+    public void ResetTilt()
+    {
+        FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        Debug.Log("Tilt reset to: " + SimulatedTiltX);
     }
 }
