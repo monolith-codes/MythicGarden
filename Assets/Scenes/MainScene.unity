@@ -629,8 +629,9 @@ GameObject:
   - component: {fileID: 520454019}
   - component: {fileID: 520454018}
   - component: {fileID: 520454017}
+  - component: {fileID: 520454020}
   m_Layer: 5
-  m_Name: Button (4)
+  m_Name: PlacePotButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -699,7 +700,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 520454018}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 520454020}
+        m_TargetAssemblyTypeName: UiButtonsHandling, Assembly-CSharp
+        m_MethodName: OnClickPlaceButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &520454018
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,6 +751,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520454015}
   m_CullTransparentMesh: 1
+--- !u!114 &520454020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520454015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed4a6d5a8db951d469d969cfac69a0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceButton: {fileID: 0}
+  TapToPlaceManager: {fileID: 0}
 --- !u!1 &550950880
 GameObject:
   m_ObjectHideFlags: 0
@@ -2053,6 +2080,7 @@ GameObject:
   - component: {fileID: 1619496220}
   - component: {fileID: 1619496219}
   - component: {fileID: 1619496221}
+  - component: {fileID: 1619496222}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -2146,6 +2174,20 @@ MonoBehaviour:
   m_Spacing: {x: 2, y: 50}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1619496222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1619496217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed4a6d5a8db951d469d969cfac69a0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlaceButton: {fileID: 520454015}
+  TapToPlaceManager: {fileID: 0}
 --- !u!1 &1764532519
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,6 +2326,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1764532519}
   m_CullTransparentMesh: 1
+--- !u!1 &1933276195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1933276197}
+  - component: {fileID: 1933276196}
+  m_Layer: 0
+  m_Name: CheckPhoneInteraction
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1933276196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933276195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32c13b144b4b764692b27e04997c956, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1933276197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1933276195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 578.5644, y: 256.8087, z: -73.03678}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2025088377
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,3 +2711,4 @@ SceneRoots:
   - {fileID: 998346817278280168}
   - {fileID: 1035444534}
   - {fileID: 608435725}
+  - {fileID: 1933276197}

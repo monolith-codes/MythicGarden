@@ -18,6 +18,7 @@ public class UiButtonsHandling : MonoBehaviour
 
         TapToPlaceManager.SetActive(false);
         PlaceButton.SetActive(true);
+        
     }
 
     public void OnClickPlaceButton()
@@ -26,5 +27,6 @@ public class UiButtonsHandling : MonoBehaviour
 
         TapToPlaceManager.SetActive(TapToPlaceIsActive);
         PlaceButton.SetActive(!TapToPlaceIsActive);
+        
     }
 }
