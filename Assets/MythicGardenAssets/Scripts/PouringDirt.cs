@@ -1,73 +1,55 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class PouringDirt : MonoBehaviour
 {
+    float SimulatedTiltX = 0f;
 
-     float SimulatedTiltX = 0f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        //SimulatedTiltX = 260f;
-        
         if (SystemInfo.supportsGyroscope)
         {
-            // Enable the gyroscope if supported
             Input.gyro.enabled = true;
         }
         else
         {
-            Debug.LogWarning("Gyroscope not supported on this device.");
+            Debug.LogWarning("Gyroscope not supported.");
         }
     }
 
-
-    
     void Update()
-{
-    
-    if (Application.isEditor && !Application.isMobilePlatform)
     {
-    
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Application.isEditor && !Application.isMobilePlatform)
         {
-            SimulatedTiltX += 1f;
-            Debug.Log("UpArrow pressed. SimulatedTiltX: " + SimulatedTiltX);
-        }
-        else if (Input.GetKey(KeyCode.DownArrow))
-        {Debug.Log("DownArrow pressed. SimulatedTiltX: " + SimulatedTiltX);
-            SimulatedTiltX -= 1f;
-        }
+            if (Input.GetKey(KeyCode.UpArrow)) SimulatedTiltX += 1f;
+            if (Input.GetKey(KeyCode.DownArrow)) SimulatedTiltX -= 1f;
 
-        SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, 0f, 360f);
-        SimulateGyroInput(SimulatedTiltX);
-    }
-    else
-    {
-        if (Input.gyro.enabled)
+            SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -45f, 45f);
+            ApplyTiltToSack(SimulatedTiltX);
+        }
+        else
         {
-        Debug.Log("Gyroscope is enabled.");
-            Quaternion deviceRotation = Input.gyro.attitude;
-            Vector3 euler = deviceRotation.eulerAngles;
-
-            if (euler.x > 250 && euler.x < 310)
+            if (Input.gyro.enabled)
             {
-                PourDirt();
+                Quaternion deviceRotation = Input.gyro.attitude;
+                Vector3 euler = deviceRotation.eulerAngles;
+
+                float tiltX = NormalizeAngle(euler.x);
+                ApplyTiltToSack(tiltX);
             }
         }
     }
-}
-    void SimulateGyroInput(float xTilt)
-{
-    if (xTilt > 250 && xTilt < 310)
+
+    float NormalizeAngle(float angle)
     {
-        PourDirt();
+        return (angle > 180) ? angle - 360 : angle;
     }
-}    void PourDirt()
+
+    void ApplyTiltToSack(float tiltX)
     {
-        
-        Debug.Log("Pouring dirt!");
-    } 
+        if (FillDirt.PlacedSack != null)
+        {
+            FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
+            Debug.Log("Applying tilt: " + tiltX);
+        }
+    }
 }
