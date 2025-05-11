@@ -504,9 +504,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a2ca280b9722b488e282c9b5c3aa97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SackPrefab: {fileID: 451908126891139107, guid: 1b9775f636660544ab1ef3d6133909aa,
+  SackPrefab: {fileID: 3438732564272120326, guid: 5ab3fa48b253d254ea28f1ada275b24d,
     type: 3}
   cam: {fileID: 620155410}
+  distanceFromCamera: 1.5
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1 &448489075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2383,6 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32c13b144b4b764692b27e04997c956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SimulatedTiltX: 0
 --- !u!4 &1933276197
 Transform:
   m_ObjectHideFlags: 0

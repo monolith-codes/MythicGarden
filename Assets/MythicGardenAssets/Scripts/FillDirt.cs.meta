@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 33a2ca280b9722b488e282c9b5c3aa97
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - SackPrefab: {fileID: 3438732564272120326, guid: 5ab3fa48b253d254ea28f1ada275b24d,
+      type: 3}
+  - cam: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
