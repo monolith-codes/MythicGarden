@@ -9,6 +9,8 @@ public class FillDirt : MonoBehaviour
     
     public float distanceFromCamera = 1.5f;
     public Vector3 offset = Vector3.zero;
+    
+    float earthSize = 0.0f;
 
     void Start()
     {
@@ -35,6 +37,7 @@ public class FillDirt : MonoBehaviour
 
             PlacedSack.transform.rotation = Quaternion.Euler(0,0,0);
         }
+        InvokeRepeating("FillPot", 0f, 0.5f);
     }
 
    public void OnClick()
@@ -97,4 +100,48 @@ public class FillDirt : MonoBehaviour
         }
         }
     }
+    
+    public void FillPot()
+    {
+    
+        PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
+        float actualTilt = pouringDirt.GetTiltX();
+        SkinnedMeshRenderer[] potMeshes = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        float fillSpeed = 0f;
+
+        if (actualTilt >= 0f && actualTilt <= 30f)
+        {
+            fillSpeed = 0.005f; // Slow
+        }
+        else if (actualTilt > 30f && actualTilt <= 60f)
+        {
+            fillSpeed = 0.0075f; // Medium
+        }
+        else if (actualTilt > 60f)
+        {
+            fillSpeed = 0.015f; // Fast
+        }
+
+        if (fillSpeed > 0f && earthSize < 100f)
+        {
+            earthSize += fillSpeed;
+
+            foreach (SkinnedMeshRenderer pot in potMeshes)
+            {
+                if (pot != null)
+                {
+                    pot.SetBlendShapeWeight(0, earthSize);
+                }
+            }
+
+            Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
+        }
+        else if (earthSize >= 100f)
+        {
+            CancelInvoke("FillPot");
+            Debug.Log("Pot is full.");
+    }
+    }
+
 }
