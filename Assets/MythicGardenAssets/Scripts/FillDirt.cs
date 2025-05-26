@@ -126,7 +126,6 @@ public class FillDirt : MonoBehaviour
         if (fillSpeed > 0f && earthSize < 100f)
         {
             earthSize += fillSpeed;
-
             foreach (SkinnedMeshRenderer pot in potMeshes)
             {
                 if (pot != null)
@@ -141,7 +140,12 @@ public class FillDirt : MonoBehaviour
         {
             CancelInvoke("FillPot");
             Debug.Log("Pot is full.");
+        }
     }
+
+    public float GetEarthSize()
+    {
+        return earthSize;
     }
 
 }
