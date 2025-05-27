@@ -53,11 +53,11 @@ public class FillDirt : MonoBehaviour
             {
                 Debug.Log("Pot and Sack are close enough. Filling pot.");
                 PlacedSack.transform.LookAt(pot.transform.position);
-                Vector3 offset = new Vector3(0.5f, 0.5f, 0f); // right = x, up = y, forward/back = z
+                Vector3 offset = new Vector3(0.0f, 0.3f, 0.3f); // right = x, up = y, forward/back = z
                 Vector3 targetPos = pot.transform.position + offset;
                 StartCoroutine(MoveSackToPot(targetPos, 1f));
                 isSackLockedToPot = true; // stop following camera
-                InvokeRepeating("FillPot", 0f, 0.5f);
+                InvokeRepeating("FillPot", 0f, 0.05f);
             }
             else if (PotSackDistance >= 5f && isSackLockedToPot)
             {
@@ -149,15 +149,15 @@ public class FillDirt : MonoBehaviour
 
         if (actualTilt >= 0f && actualTilt <= 30f)
         {
-            fillSpeed = 3.0f; // Slow
+            fillSpeed = 1.0f; // Slow
         }
         else if (actualTilt > 30f && actualTilt <= 60f)
         {
-            fillSpeed = 6.0f; // Medium
+            fillSpeed = 2.0f; // Medium
         }
         else if (actualTilt > 60f)
         {
-            fillSpeed = 12.0f; // Fast
+            fillSpeed = 3.0f; // Fast
         }
 
         if (fillSpeed > 0f && earthSize < 100f)
