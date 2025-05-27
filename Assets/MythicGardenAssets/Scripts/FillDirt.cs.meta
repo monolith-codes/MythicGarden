@@ -7,6 +7,7 @@ MonoImporter:
   - SackPrefab: {fileID: 3438732564272120326, guid: 5ab3fa48b253d254ea28f1ada275b24d,
       type: 3}
   - cam: {instanceID: 0}
+  - pot: {fileID: 3116548718036085064, guid: 647fe9e6b46d2184ab36cf41afaa0dee, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
