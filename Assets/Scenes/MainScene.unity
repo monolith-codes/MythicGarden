@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2863,6 +2863,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: potwithSeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7893874045492972555, guid: 647fe9e6b46d2184ab36cf41afaa0dee,
+        type: 3}
+      propertyPath: 'm_BlendShapeWeights.Array.data[0]'
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8483441084869348737, guid: 647fe9e6b46d2184ab36cf41afaa0dee,
         type: 3}
