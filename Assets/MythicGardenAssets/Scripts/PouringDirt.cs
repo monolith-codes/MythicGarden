@@ -24,7 +24,7 @@ public class PouringDirt : MonoBehaviour
             if (Input.GetKey(KeyCode.UpArrow)) SimulatedTiltX += 1f;
             if (Input.GetKey(KeyCode.DownArrow)) SimulatedTiltX -= 1f;
 
-            SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -45f, 45f);
+            SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -60f, 60f);
             ApplyTiltToSack(SimulatedTiltX);
         }
         else
@@ -50,7 +50,6 @@ public class PouringDirt : MonoBehaviour
         if (FillDirt.PlacedSack != null)
         {
             FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
-            //Debug.Log("Applying tilt: " + tiltX);
         }
     }
     
@@ -58,5 +57,10 @@ public class PouringDirt : MonoBehaviour
     {
         FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
         Debug.Log("Tilt reset to: " + SimulatedTiltX);
+    }
+    
+    public float GetTiltX()
+    {
+        return SimulatedTiltX;
     }
 }

@@ -1,0 +1,1 @@
+C:\Users\locke\Documents\MythicGarden\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\RelWithDebInfo\5w5f5bn4\obj\arm64-v8a
