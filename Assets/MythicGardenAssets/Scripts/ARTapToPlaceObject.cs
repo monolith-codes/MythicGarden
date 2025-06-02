@@ -38,6 +38,7 @@ public class ARTapAndDragObject : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             touchPosition = touch.position;
+            
 
             if (touch.phase == TouchPhase.Began)
             {
@@ -68,7 +69,8 @@ public class ARTapAndDragObject : MonoBehaviour
             if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = hits[0].pose;
-                placedObject = Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
+                Vector3 worldPosition = hitPose.position;               
+                
                 Debug.Log("Object placed.");
                 isObjectSelected = true;
             }
