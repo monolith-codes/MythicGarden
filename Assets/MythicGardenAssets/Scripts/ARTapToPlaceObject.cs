@@ -70,7 +70,7 @@ public class ARTapAndDragObject : MonoBehaviour
             {
                 Pose hitPose = hits[0].pose;
                 Vector3 worldPosition = hitPose.position;               
-                
+                placedObject = Instantiate(objectToPlace, worldPosition, hitPose.rotation);
                 Debug.Log("Object placed.");
                 isObjectSelected = true;
             }

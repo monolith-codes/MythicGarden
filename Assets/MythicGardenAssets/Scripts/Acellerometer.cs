@@ -20,20 +20,20 @@ public class Acellerometer : MonoBehaviour
     Vector3 currentAcceleration = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
     
     float accelerationChange = (currentAcceleration - lastAcceleration).magnitude;
-    Debug.Log("Acceleration Change: " + accelerationChange);
-    Debug.Log("ShakeThreshold: " + shakeThreshold);
+    //Debug.Log("Acceleration Change: " + accelerationChange);
+    //Debug.Log("ShakeThreshold: " + shakeThreshold);
 
     if (accelerationChange > shakeThreshold)
     {
-        Debug.Log("Shake detected with change: " + accelerationChange);
+        //Debug.Log("Shake detected with change: " + accelerationChange);
         if (!isShaking)
         {
             isShaking = true;
-            Debug.Log("Shake detected!");
+            //Debug.Log("Shake detected!");
             if (objectToShake != null)
             {
                 objectToShake.transform.localScale *= 1.05f;
-                Debug.Log("Object shaken: " + objectToShake.transform.localScale);
+                //Debug.Log("Object shaken: " + objectToShake.transform.localScale);
             }
         }
     }
