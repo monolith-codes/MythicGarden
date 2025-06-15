@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FillDirt : MonoBehaviour
@@ -9,6 +10,7 @@ public class FillDirt : MonoBehaviour
     public static GameObject PlacedSack;
     
     public GameObject pot;
+    private GameObject earth;
     
     public float distanceFromCamera = 1.5f;
     public Vector3 offset = Vector3.zero;
@@ -143,8 +145,20 @@ public class FillDirt : MonoBehaviour
     
         PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
         float actualTilt = pouringDirt.GetTiltX();
-        SkinnedMeshRenderer[] potMeshes = pot.GetComponentsInChildren<SkinnedMeshRenderer>();
-
+        if(pot == null)
+        {
+            Debug.Log("ist mein pot da ????????????????????????????????????????????");
+            return;
+        }
+        earth = pot.transform.Find("default_dirt")?.gameObject;
+        Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
+       
+        SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
+        Debug.Log("BlendShape count: " + potMeshes.sharedMesh.blendShapeCount);
+        Debug.Log("BlendShape name at 0: " + potMeshes.sharedMesh.GetBlendShapeName(0));
+        Debug.Log("wie viel erde hab ich gerade in meinem eimer?: " + potMeshes.GetBlendShapeWeight(0));
+        Debug.Log("Mesh instance ID: " + potMeshes.sharedMesh.GetInstanceID());
+        
         float fillSpeed = 0f;
 
         if (actualTilt >= 0f && actualTilt <= 30f)
@@ -163,13 +177,11 @@ public class FillDirt : MonoBehaviour
         if (fillSpeed > 0f && earthSize < 100f)
         {
             earthSize += fillSpeed;
-            foreach (SkinnedMeshRenderer pot in potMeshes)
+           if(potMeshes != null)
             {
-                if (pot != null)
-                {
-                    pot.SetBlendShapeWeight(0, earthSize);
-                }
+                potMeshes.SetBlendShapeWeight(0, earthSize);
             }
+            
 
             Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
         }
@@ -201,5 +213,6 @@ public class FillDirt : MonoBehaviour
         PlacedSack.transform.position = targetPos; // Snap exactly at the end
     }
 
+   
 
 }
