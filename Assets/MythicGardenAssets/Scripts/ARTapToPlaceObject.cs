@@ -7,7 +7,7 @@ public class ARTapAndDragObject : MonoBehaviour
 {
     public GameObject objectToPlace;
     public ARRaycastManager raycastManager;
-    
+    public GameObject earthPrefab;
     private GameObject placedObject;
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
 

@@ -10,6 +10,7 @@ public class FillDirt : MonoBehaviour
     public static GameObject PlacedSack;
     
     public GameObject pot;
+    public GameObject earthPrefab;
     private GameObject earth;
     
     public float distanceFromCamera = 1.5f;
@@ -126,17 +127,17 @@ public class FillDirt : MonoBehaviour
         else
         {
             if (PlacedSack != null)
-        {
-            PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
-            
-            if (pouringDirt != null)
+            {
+                PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
+
+                if (pouringDirt != null)
                 {
                     pouringDirt.ResetTilt(); 
                 }
 
                 Destroy(PlacedSack);
                 PlacedSack = null;
-        }
+            }
         }
     }
     
@@ -153,11 +154,10 @@ public class FillDirt : MonoBehaviour
         earth = pot.transform.Find("default_dirt")?.gameObject;
         Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
        
-        SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
-        Debug.Log("BlendShape count: " + potMeshes.sharedMesh.blendShapeCount);
-        Debug.Log("BlendShape name at 0: " + potMeshes.sharedMesh.GetBlendShapeName(0));
-        Debug.Log("wie viel erde hab ich gerade in meinem eimer?: " + potMeshes.GetBlendShapeWeight(0));
-        Debug.Log("Mesh instance ID: " + potMeshes.sharedMesh.GetInstanceID());
+        SkinnedMeshRenderer[] potMeshes = earth.GetComponentsInChildren<SkinnedMeshRenderer>();
+        Debug.Log("BlendShape name at 0: " + potMeshes[1].sharedMesh.GetBlendShapeName(0));
+        Debug.Log("wie viel erde hab ich gerade in meinem eimer?: " + potMeshes[1].GetBlendShapeWeight(0));
+        Debug.Log("Mesh instance ID: " + potMeshes[1].sharedMesh.GetInstanceID());
         
         float fillSpeed = 0f;
 
@@ -177,12 +177,11 @@ public class FillDirt : MonoBehaviour
         if (fillSpeed > 0f && earthSize < 100f)
         {
             earthSize += fillSpeed;
-           if(potMeshes != null)
+            foreach (SkinnedMeshRenderer mesh in potMeshes)
             {
-                potMeshes.SetBlendShapeWeight(0, earthSize);
+                mesh.SetBlendShapeWeight(0, earthSize);
             }
             
-
             Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
         }
         else if (earthSize >= 100f)
