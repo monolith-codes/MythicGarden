@@ -49,8 +49,8 @@ public class FillDirt : MonoBehaviour
                 Vector3 targetPosition = cam.transform.position + cam.transform.forward * distanceFromCamera + offset;
                 PlacedSack.transform.position = targetPosition;
             }
-
-            float PotSackDistance = Vector3.Distance(pot.transform.position, PlacedSack.transform.position);
+            Vector3 placedObjectPosition = arTapAndDragObject.PlacedObject.transform.position;
+            float PotSackDistance = Vector3.Distance( placedObjectPosition, PlacedSack.transform.position);
             /* Debug.Log("Distance between pot and sack: " + PotSackDistance);
             Debug.Log("Pot Positoni: pot pot pot pot pot pot pto " + pot.transform.position);
             Debug.Log("Sack Positoni Sack sack sack sack sack sack: " + PlacedSack.transform.position); */
