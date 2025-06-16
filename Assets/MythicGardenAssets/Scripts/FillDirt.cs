@@ -37,6 +37,9 @@ public class FillDirt : MonoBehaviour
             Debug.LogError("Main camera not found.");
             return;
         }
+        earth = pot.transform.Find("neues_dirt")?.gameObject;
+        SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
+        potMeshes.SetBlendShapeWeight(0, 0f);
         
     }
 
@@ -51,9 +54,9 @@ public class FillDirt : MonoBehaviour
             }
 
             float PotSackDistance = Vector3.Distance(pot.transform.position, PlacedSack.transform.position);
-            Debug.Log("Distance between pot and sack: " + PotSackDistance);
+            /* Debug.Log("Distance between pot and sack: " + PotSackDistance);
             Debug.Log("Pot Positoni: pot pot pot pot pot pot pto " + pot.transform.position);
-            Debug.Log("Sack Positoni Sack sack sack sack sack sack: " + PlacedSack.transform.position);
+            Debug.Log("Sack Positoni Sack sack sack sack sack sack: " + PlacedSack.transform.position); */
             if (PotSackDistance < 0.5f && !isSackLockedToPot)
             {
                 Debug.Log("Pot and Sack are close enough. Filling pot.");
@@ -85,6 +88,7 @@ public class FillDirt : MonoBehaviour
             Debug.LogError("SackPrefab is null at click time.");
             return;
         }
+        
 
         isPouring = !isPouring;
 
@@ -107,20 +111,20 @@ public class FillDirt : MonoBehaviour
             Quaternion spawnRotation = Quaternion.LookRotation(-cam.transform.forward);
             PlacedSack = Instantiate(SackPrefab, spawnPosition, spawnRotation);
             
-            Debug.Log("Object placed in front of camera.");
+            //Debug.Log("Object placed in front of camera.");
 
             PouringDirt newPouringDirt = PlacedSack.GetComponent<PouringDirt>();
-            Debug.Log("PouringDirt component found. Wo ist mein Sack" + newPouringDirt.name);
+            //Debug.Log("PouringDirt component found. Wo ist mein Sack" + newPouringDirt.name);
             
             if (newPouringDirt != null)
             {
-                Debug.Log("PouringDirt component found. Der wird jetzt mal was machen.");
+                //Debug.Log("PouringDirt component found. Der wird jetzt mal was machen.");
                 newPouringDirt.ResetTilt();
                 newPouringDirt.enabled = true;
             }
             else
             {
-                Debug.LogError("PouringDirt component not found on the instantiated object. Warum nicht?");
+                //Debug.LogError("PouringDirt component not found on the instantiated object. Warum nicht?");
             }
             
             
@@ -145,22 +149,53 @@ public class FillDirt : MonoBehaviour
     
     public void FillPot()
     {
-    
+        
         PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
         float actualTilt = pouringDirt.GetTiltX();
         if(pot == null)
         {
-            Debug.Log("ist mein pot da ????????????????????????????????????????????");
+            //Debug.Log("ist mein pot da ????????????????????????????????????????????");
             return;
         }
-        earth = pot.transform.Find("default_dirt")?.gameObject;
-        Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
+        earth = Instantiate(earthPrefab, earthPrefab.transform.position, Quaternion.identity);
+        //Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
        
         SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
-        Debug.Log("BlendShape count: " + potMeshes.sharedMesh.blendShapeCount);
+
+       /*  if (potMeshes != null && potMeshes.sharedMesh != null)
+        {
+            // Clone the mesh so the blendshape changes are unique to this instance
+            Mesh runtimeMesh = Instantiate(potMeshes.sharedMesh);
+            runtimeMesh.name = potMeshes.sharedMesh.name + "_Clone";
+
+            potMeshes.sharedMesh = runtimeMesh;
+
+            Debug.Log("✅ Assigned unique runtime mesh: " + runtimeMesh.name);
+        } */
+        Mesh meshAtRuntime = potMeshes.sharedMesh;
+        Debug.Log("Runtime Mesh Name: " + meshAtRuntime.name);
+        Debug.Log("BlendShape Count (runtime): " + meshAtRuntime.blendShapeCount);
+        Debug.Log("Earth GameObject Name: " + earth.name);
+        if (potMeshes == null)
+        {
+            Debug.LogError("❌ potMeshes is NULL — SkinnedMeshRenderer not found on 'neues_dirt'");
+            return;
+        }
+
+        for (int i = 0; i < meshAtRuntime.blendShapeCount; i++)
+        {
+            Debug.Log($"BlendShape {i}: {meshAtRuntime.GetBlendShapeName(i)}");
+        }
+       /*  Debug.Log("BlendShape count: " + potMeshes.sharedMesh.blendShapeCount);
         Debug.Log("BlendShape name at 0: " + potMeshes.sharedMesh.GetBlendShapeName(0));
         Debug.Log("wie viel erde hab ich gerade in meinem eimer?: " + potMeshes.GetBlendShapeWeight(0));
-        Debug.Log("Mesh instance ID: " + potMeshes.sharedMesh.GetInstanceID());
+        Debug.Log("Mesh instance ID: " + potMeshes.GetInstanceID()); */
+        
+        int blendindex = potMeshes.sharedMesh.GetBlendShapeIndex("Full");
+        foreach (Transform t in pot.GetComponentsInChildren<Transform>())
+        {
+            //Debug.Log("Child: chiild  chiild chiild chiild chiild chiild" + t.name);
+        }
         
         float fillSpeed = 0f;
 
@@ -180,18 +215,19 @@ public class FillDirt : MonoBehaviour
         if (fillSpeed > 0f && earthSize < 100f)
         {
             earthSize += fillSpeed;
-           if(potMeshes != null)
+           if(potMeshes != null && blendindex >= 0)
             {
-                potMeshes.SetBlendShapeWeight(0, earthSize);
+                potMeshes.SetBlendShapeWeight(blendindex, earthSize);
+                potMeshes.updateWhenOffscreen = true;
             }
             
 
-            Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
+            //Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
         }
         else if (earthSize >= 100f)
         {
             CancelInvoke("FillPot");
-            Debug.Log("Pot is full.");
+            //Debug.Log("Pot is full.");
         }
     }
 

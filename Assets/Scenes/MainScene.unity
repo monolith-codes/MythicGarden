@@ -152,6 +152,7 @@ MonoBehaviour:
     type: 3}
   cam: {fileID: 620155410}
   pot: {fileID: 639027402116113550, guid: 3b613c4c2da11be419cb727037571d31, type: 3}
+  earthPrefab: {fileID: 0}
   distanceFromCamera: 1.5
   offset: {x: 0, y: 0, z: 0}
 --- !u!4 &119634479
@@ -1340,6 +1341,7 @@ MonoBehaviour:
   objectToPlace: {fileID: 639027402116113550, guid: 3b613c4c2da11be419cb727037571d31,
     type: 3}
   raycastManager: {fileID: 354519511}
+  earthPrefab: {fileID: 0}
 --- !u!4 &608435725
 Transform:
   m_ObjectHideFlags: 0

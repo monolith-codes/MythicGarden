@@ -97,6 +97,7 @@ public class ARTapAndDragObject : MonoBehaviour
                 Debug.Log("Raycast did not hit any object.");
             }
         }
+        
     }
 
     void DragObject(Vector2 touchPosition)
@@ -112,30 +113,4 @@ public class ARTapAndDragObject : MonoBehaviour
             Debug.Log("Dragging: no plane detected under touch.");
         }
     }
-    
-    /* void DisablePlaneColliders()
-    {
-       
-        
-            foreach (var plane in FindObjectsByType<ARPlane>(FindObjectsSortMode.None))
-            {
-                MeshRenderer planeMesh = plane.GetComponent<MeshRenderer>();
-                if (planeMesh)
-                {
-                    planeMesh.enabled = false; // Disable the mesh renderer to hide the plane
-                }
-                Collider col = plane.GetComponent<Collider>();
-                if (col)
-                {
-                    col.enabled = false;
-                    
-                    Debug.Log("Disabled collider on plane: " + plane.trackableId);
-                }
-                
-            }
-            
-            Debug.Log("Disabled colliders on all planes.");
-        } */
-       
-        
 }
