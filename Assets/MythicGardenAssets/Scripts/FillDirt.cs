@@ -15,9 +15,10 @@ public class FillDirt : MonoBehaviour
     
     public float distanceFromCamera = 1.5f;
     public Vector3 offset = Vector3.zero;
-    
+
     float earthSize = 0.0f;
     private bool isSackLockedToPot = false;
+    public ARTapAndDragObject arTapAndDragObject;
 
 
 
@@ -36,11 +37,7 @@ public class FillDirt : MonoBehaviour
         {
             Debug.LogError("Main camera not found.");
             return;
-        }
-        earth = pot.transform.Find("neues_dirt")?.gameObject;
-        SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
-        potMeshes.SetBlendShapeWeight(0, 0f);
-        
+        }       
     }
 
     void Update()
@@ -157,9 +154,15 @@ public class FillDirt : MonoBehaviour
             //Debug.Log("ist mein pot da ????????????????????????????????????????????");
             return;
         }
-        earth = Instantiate(earthPrefab, earthPrefab.transform.position, Quaternion.identity);
+        if ( earth == null && arTapAndDragObject != null && arTapAndDragObject.PlacedObject != null)
+        {
+            Vector3 placedObjectPosition = arTapAndDragObject.PlacedObject.transform.position;
+            Debug.Log("PlacedObject position: " + placedObjectPosition);
+            earth = Instantiate(earthPrefab, placedObjectPosition, Quaternion.identity);
+        }
         //Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
-       
+        
+        Debug.Log("Earth object instantiated at pot position: " + pot.transform.position);
         SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
 
        /*  if (potMeshes != null && potMeshes.sharedMesh != null)
