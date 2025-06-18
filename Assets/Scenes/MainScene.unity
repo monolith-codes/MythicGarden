@@ -151,10 +151,12 @@ MonoBehaviour:
   SackPrefab: {fileID: 3438732564272120326, guid: 5ab3fa48b253d254ea28f1ada275b24d,
     type: 3}
   cam: {fileID: 620155410}
-  pot: {fileID: 639027402116113550, guid: 3b613c4c2da11be419cb727037571d31, type: 3}
-  earthPrefab: {fileID: 0}
+  pot: {fileID: 4110501781485578691, guid: 18936ae722a393d41aeae89b73e820ad, type: 3}
+  earthPrefab: {fileID: 4299978779166909113, guid: 9a00a889b4906ae4ca5d61cb9202e9ed,
+    type: 3}
   distanceFromCamera: 1.5
   offset: {x: 0, y: 0, z: 0}
+  arTapAndDragObject: {fileID: 608435724}
 --- !u!4 &119634479
 Transform:
   m_ObjectHideFlags: 0
@@ -1338,10 +1340,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4ed4922d22fe34ead12593ac8d65d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToPlace: {fileID: 639027402116113550, guid: 3b613c4c2da11be419cb727037571d31,
+  objectToPlace: {fileID: 4110501781485578691, guid: 18936ae722a393d41aeae89b73e820ad,
     type: 3}
   raycastManager: {fileID: 354519511}
-  earthPrefab: {fileID: 0}
 --- !u!4 &608435725
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,7 +1945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a16097ba022a8f843847103455748b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToPlace: {fileID: 639027402116113550, guid: 3b613c4c2da11be419cb727037571d31,
+  objectToPlace: {fileID: 4110501781485578691, guid: 18936ae722a393d41aeae89b73e820ad,
     type: 3}
   raycastManager: {fileID: 354519511}
   planeManager: {fileID: 354519512}

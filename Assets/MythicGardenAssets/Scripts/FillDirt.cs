@@ -12,6 +12,11 @@ public class FillDirt : MonoBehaviour
     public GameObject pot;
     public GameObject earthPrefab;
     private GameObject earth;
+    public GameObject Earth 
+    { 
+        get { return earth; }
+        
+    }
     
     public float distanceFromCamera = 1.5f;
     public Vector3 offset = Vector3.zero;
