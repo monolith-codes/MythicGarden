@@ -59,7 +59,7 @@ public class FillDirt : MonoBehaviour
                 PlacedSack.transform.position = targetPosition;
             }
             Vector3 placedObjectPosition = arTapAndDragObject.PlacedObject.transform.position;
-            float PotSackDistance = Vector3.Distance( placedObjectPosition, PlacedSack.transform.position);
+            float PotSackDistance = Vector3.Distance(placedObjectPosition, PlacedSack.transform.position);
             /* Debug.Log("Distance between pot and sack: " + PotSackDistance);
             Debug.Log("Pot Positoni: pot pot pot pot pot pot pto " + pot.transform.position);
             Debug.Log("Sack Positoni Sack sack sack sack sack sack: " + PlacedSack.transform.position); */
@@ -75,7 +75,7 @@ public class FillDirt : MonoBehaviour
             }
             else if (PotSackDistance >= 5f && isSackLockedToPot)
             {
-                isSackLockedToPot = false; // allow following again if pulled away
+                isSackLockedToPot = false;
                 CancelInvoke("FillPot");
             }
     }
@@ -107,7 +107,7 @@ public class FillDirt : MonoBehaviour
                 PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
                 if (pouringDirt != null)
                 {
-                    pouringDirt.ResetTilt();
+                    pouringDirt.ResetTiltSack();
                 }
 
                 Destroy(PlacedSack);
@@ -125,7 +125,7 @@ public class FillDirt : MonoBehaviour
             if (newPouringDirt != null)
             {
                 //Debug.Log("PouringDirt component found. Der wird jetzt mal was machen.");
-                newPouringDirt.ResetTilt();
+                newPouringDirt.ResetTiltSack();
                 newPouringDirt.enabled = true;
             }
             else
@@ -144,7 +144,7 @@ public class FillDirt : MonoBehaviour
 
                 if (pouringDirt != null)
                 {
-                    pouringDirt.ResetTilt(); 
+                    pouringDirt.ResetTiltSack(); 
                 }
 
                 Destroy(PlacedSack);

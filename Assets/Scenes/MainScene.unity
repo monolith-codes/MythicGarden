@@ -842,7 +842,6 @@ GameObject:
   - component: {fileID: 550950884}
   - component: {fileID: 550950883}
   - component: {fileID: 550950882}
-  - component: {fileID: 550950885}
   m_Layer: 5
   m_Name: Button (2)
   m_TagString: Untagged
@@ -914,7 +913,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 550950885}
+      - m_Target: {fileID: 1342050466}
         m_TargetAssemblyTypeName: PlantSeed, Assembly-CSharp
         m_MethodName: OnButtonClick
         m_Mode: 1
@@ -964,21 +963,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 550950880}
   m_CullTransparentMesh: 1
---- !u!114 &550950885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 550950880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d730e724d3c86c469dadd7a93f35952, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SeedPrefab: {fileID: 919132149155446097, guid: c473716e0c022f54892e323e3b66d893,
-    type: 3}
-  PotPosition: {fileID: 0}
 --- !u!1 &558825405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1182,7 +1166,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 588501441}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 987424100}
+        m_TargetAssemblyTypeName: WaterFlower, Assembly-CSharp
+        m_MethodName: OnClickWaterButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &588501441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1916,6 +1912,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911857109}
   m_CullTransparentMesh: 1
+--- !u!1 &987424099
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987424101}
+  - component: {fileID: 987424100}
+  m_Layer: 0
+  m_Name: WaterFlowerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &987424100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987424099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b799a3f739ac6458efc07dc7a5d73a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WateringCanPrefab: {fileID: 7159140551111614034, guid: 08646c38e9622bd49956b31973e41b7b,
+    type: 3}
+  cam: {fileID: 620155410}
+  arTapAndDragObject: {fileID: 608435724}
+--- !u!4 &987424101
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 987424099}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 424.7468, y: 222.26112, z: 2.9640024}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1035444532
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,6 +2169,54 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 596.64056, y: 253.49506, z: 3.0445354}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1342050465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1342050467}
+  - component: {fileID: 1342050466}
+  m_Layer: 0
+  m_Name: PlantSeedManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1342050466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342050465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d730e724d3c86c469dadd7a93f35952, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SeedPrefab: {fileID: 6450734921236367031, guid: d5880d018759ca543bd81a3358fbe0aa,
+    type: 3}
+  fillDirt: {fileID: 119634478}
+  raycastManager: {fileID: 354519511}
+--- !u!4 &1342050467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342050465}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 586.5, y: 261, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2853,3 +2945,5 @@ SceneRoots:
   - {fileID: 1933276197}
   - {fileID: 119634479}
   - {fileID: 1228443748}
+  - {fileID: 1342050467}
+  - {fileID: 987424101}
