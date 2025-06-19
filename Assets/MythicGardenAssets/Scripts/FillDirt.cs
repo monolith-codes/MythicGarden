@@ -10,6 +10,10 @@ public class FillDirt : MonoBehaviour
     public static GameObject PlacedSack;
     
     public GameObject pot;
+    public GameObject Pot 
+    {
+        get { return pot; } 
+    }
     public GameObject earthPrefab;
     private GameObject earth;
     public GameObject Earth 
