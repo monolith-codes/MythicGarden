@@ -26,6 +26,7 @@ public class PouringDirt : MonoBehaviour
 
             SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -60f, 60f);
             ApplyTiltToSack(SimulatedTiltX);
+            ApplyTiltToCan(SimulatedTiltX);
         }
         else
         {
@@ -36,6 +37,7 @@ public class PouringDirt : MonoBehaviour
 
                 float tiltX = NormalizeAngle(euler.x);
                 ApplyTiltToSack(tiltX);
+                ApplyTiltToCan(tiltX);
             }
         }
     }
@@ -53,9 +55,22 @@ public class PouringDirt : MonoBehaviour
         }
     }
     
-    public void ResetTilt()
+    void ApplyTiltToCan(float tiltX)
     {
-        FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        if (WaterFlower.wateringCan != null)
+        {
+            WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
+        }
+    }
+    
+    public void ResetTiltSack()
+    {
+        FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+        Debug.Log("Tilt reset to: " + SimulatedTiltX);
+    }
+    public void ResetTiltCan()
+    {
+        WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
         Debug.Log("Tilt reset to: " + SimulatedTiltX);
     }
     

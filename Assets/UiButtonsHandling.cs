@@ -14,7 +14,7 @@ public class UiButtonsHandling : MonoBehaviour
             TapToPlaceManager = GameObject.Find("TapToPlaceManager");
 
         if (PlaceButton == null)
-            PlaceButton = GameObject.Find("PlaceButton");
+            PlaceButton = GameObject.Find("PlacePotButton");
 
         TapToPlaceManager.SetActive(false);
         PlaceButton.SetActive(true);
@@ -24,9 +24,7 @@ public class UiButtonsHandling : MonoBehaviour
     public void OnClickPlaceButton()
     {
         TapToPlaceIsActive = !TapToPlaceIsActive;
-
         TapToPlaceManager.SetActive(TapToPlaceIsActive);
-        PlaceButton.SetActive(!TapToPlaceIsActive);
         
     }
 }

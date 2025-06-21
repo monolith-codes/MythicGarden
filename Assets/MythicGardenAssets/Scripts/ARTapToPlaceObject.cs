@@ -7,10 +7,14 @@ public class ARTapAndDragObject : MonoBehaviour
 {
     public GameObject objectToPlace;
     public ARRaycastManager raycastManager;
-    
     private GameObject placedObject;
+    public GameObject PlacedObject 
+    { 
+        get { return placedObject; }
+        
+    }
+    
     private static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-
     private bool isDragging = false;
     private bool isObjectSelected = false;
     private Vector2 touchPosition;
@@ -38,6 +42,7 @@ public class ARTapAndDragObject : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
             touchPosition = touch.position;
+            
 
             if (touch.phase == TouchPhase.Began)
             {
@@ -67,8 +72,10 @@ public class ARTapAndDragObject : MonoBehaviour
         {  
             if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
             {
+                
                 Pose hitPose = hits[0].pose;
-                placedObject = Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
+                Vector3 worldPosition = hitPose.position;               
+                placedObject = Instantiate(objectToPlace, worldPosition, hitPose.rotation);
                 Debug.Log("Object placed.");
                 isObjectSelected = true;
             }
@@ -95,6 +102,7 @@ public class ARTapAndDragObject : MonoBehaviour
                 Debug.Log("Raycast did not hit any object.");
             }
         }
+        
     }
 
     void DragObject(Vector2 touchPosition)
@@ -110,30 +118,4 @@ public class ARTapAndDragObject : MonoBehaviour
             Debug.Log("Dragging: no plane detected under touch.");
         }
     }
-    
-    /* void DisablePlaneColliders()
-    {
-       
-        
-            foreach (var plane in FindObjectsByType<ARPlane>(FindObjectsSortMode.None))
-            {
-                MeshRenderer planeMesh = plane.GetComponent<MeshRenderer>();
-                if (planeMesh)
-                {
-                    planeMesh.enabled = false; // Disable the mesh renderer to hide the plane
-                }
-                Collider col = plane.GetComponent<Collider>();
-                if (col)
-                {
-                    col.enabled = false;
-                    
-                    Debug.Log("Disabled collider on plane: " + plane.trackableId);
-                }
-                
-            }
-            
-            Debug.Log("Disabled colliders on all planes.");
-        } */
-       
-        
 }
