@@ -24,7 +24,6 @@ public class UiButtonsHandling : MonoBehaviour
     public void OnClickPlaceButton()
     {
         TapToPlaceIsActive = !TapToPlaceIsActive;
-
         TapToPlaceManager.SetActive(TapToPlaceIsActive);
         
     }

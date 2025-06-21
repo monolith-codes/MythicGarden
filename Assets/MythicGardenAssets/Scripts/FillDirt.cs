@@ -28,6 +28,8 @@ public class FillDirt : MonoBehaviour
     float earthSize = 0.0f;
     private bool isSackLockedToPot = false;
     public ARTapAndDragObject arTapAndDragObject;
+    
+    public GameObject ParticlePrefab;
 
 
 
@@ -51,6 +53,15 @@ public class FillDirt : MonoBehaviour
 
     void Update()
     {
+        if (arTapAndDragObject.PlacedObject != null)
+        {
+            pot = arTapAndDragObject.PlacedObject;
+        }
+        else
+        {
+            Debug.LogWarning("❌ PlacedObject is null — no pot selected?");
+            return;
+        }
         if (PlacedSack != null && cam != null)
         {
             if (!isSackLockedToPot)
@@ -58,33 +69,31 @@ public class FillDirt : MonoBehaviour
                 Vector3 targetPosition = cam.transform.position + cam.transform.forward * distanceFromCamera + offset;
                 PlacedSack.transform.position = targetPosition;
             }
-            Vector3 placedObjectPosition = arTapAndDragObject.PlacedObject.transform.position;
+
+            Vector3 placedObjectPosition = pot.transform.position;
             float PotSackDistance = Vector3.Distance(placedObjectPosition, PlacedSack.transform.position);
-            /* Debug.Log("Distance between pot and sack: " + PotSackDistance);
-            Debug.Log("Pot Positoni: pot pot pot pot pot pot pto " + pot.transform.position);
-            Debug.Log("Sack Positoni Sack sack sack sack sack sack: " + PlacedSack.transform.position); */
+            if (arTapAndDragObject.PlacedObject != pot)
+            {
+                Debug.LogWarning("PlacedObject is NOT the current pot! NOT NOT NOT");
+            }
+
             if (PotSackDistance < 0.5f && !isSackLockedToPot)
             {
-                Debug.Log("Pot and Sack are close enough. Filling pot.");
+                isSackLockedToPot = true;
+                Vector3 localOffset = new Vector3(0f, 0.2f, -0.2f);
+                Vector3 targetPos = pot.transform.TransformPoint(localOffset);
+                //PlacedSack.transform.position = targetPos;
                 PlacedSack.transform.LookAt(pot.transform.position);
-                Vector3 offset = new Vector3(0.0f, 0.3f, 0.3f); // right = x, up = y, forward/back = z
-                Vector3 targetPos = pot.transform.position + offset;
-                StartCoroutine(MoveSackToPot(targetPos, 1f));
-                isSackLockedToPot = true; // stop following camera
-                InvokeRepeating("FillPot", 0f, 0.05f);
+                StartCoroutine(MoveSackToPot(targetPos + new Vector3(0.0f, 0.2f, -0.25f), 1f));
             }
             else if (PotSackDistance >= 5f && isSackLockedToPot)
             {
                 isSackLockedToPot = false;
                 CancelInvoke("FillPot");
             }
-    }
-        
-        
-        
-        
-        
-       
+            Debug.Log("Das ist meiine Aktuelle Zielposition.Zielposition Zielposition Zielposition" + pot.transform.position);
+            Debug.Log("Das ist meine Sack. Position Sack. Position Sack. Position Sack. Position " + PlacedSack.transform.position);
+        }
     }
 
    public void OnClick()
@@ -232,14 +241,20 @@ public class FillDirt : MonoBehaviour
                 potMeshes.SetBlendShapeWeight(blendindex, earthSize);
                 potMeshes.updateWhenOffscreen = true;
             }
-            
 
-            //Debug.Log($"Filling pot. Tilt: {actualTilt} | FillSpeed: {fillSpeed} | EarthSize: {earthSize}");
         }
         else if (earthSize >= 100f)
         {
             CancelInvoke("FillPot");
             //Debug.Log("Pot is full.");
+        }
+        
+        if (earthSize <= 100f && ParticlePrefab != null && actualTilt < 0f)
+        {
+            Debug.Log("spawning particles.");
+            GameObject particles = Instantiate(ParticlePrefab, pot.transform.position, Quaternion.identity);
+            particles.GetComponent<ParticleSystem>().Play();
+            //Destroy(particles, 2f); // Destroy after 2 seconds
         }
     }
 
@@ -250,18 +265,22 @@ public class FillDirt : MonoBehaviour
     
     private IEnumerator MoveSackToPot(Vector3 targetPos, float duration)
     {
+        isSackLockedToPot = true; // Lock right away so Update doesn't interfere
         Vector3 startPos = PlacedSack.transform.position;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
-            if (PlacedSack == null) yield break; // Safety check
+            if (PlacedSack == null) yield break;
             PlacedSack.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        PlacedSack.transform.position = targetPos; // Snap exactly at the end
+        PlacedSack.transform.position = targetPos;
+        PlacedSack.transform.LookAt(pot.transform.position);
+
+        InvokeRepeating("FillPot", 0f, 0.05f);
     }
 
    
