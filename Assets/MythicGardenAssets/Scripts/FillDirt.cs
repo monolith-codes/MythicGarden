@@ -211,7 +211,7 @@ public class FillDirt : MonoBehaviour
         
         float fillSpeed = 0f;
 
-        if (actualTilt >= 0f && actualTilt <= 30f)
+        if (actualTilt > 0f && actualTilt <= 30f)
         {
             fillSpeed = 1.0f; // Slow
         }

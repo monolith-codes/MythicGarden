@@ -65,12 +65,12 @@ public class PouringDirt : MonoBehaviour
     
     public void ResetTiltSack()
     {
-        FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
         Debug.Log("Tilt reset to: " + SimulatedTiltX);
     }
     public void ResetTiltCan()
     {
-        WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
         Debug.Log("Tilt reset to: " + SimulatedTiltX);
     }
     
