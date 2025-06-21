@@ -206,6 +206,8 @@ MonoBehaviour:
   distanceFromCamera: 1.5
   offset: {x: 0, y: 0, z: 0}
   arTapAndDragObject: {fileID: 608435724}
+  ParticlePrefab: {fileID: 6922148087754468307, guid: 1a47531724c849d4982634c0ff0b0128,
+    type: 3}
 --- !u!4 &119634479
 Transform:
   m_ObjectHideFlags: 0
@@ -1990,7 +1992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b799a3f739ac6458efc07dc7a5d73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WateringCanPrefab: {fileID: 7159140551111614034, guid: 08646c38e9622bd49956b31973e41b7b,
+  WateringCanPrefab: {fileID: 5926056019424075515, guid: 41475265f14441548a8a776fab2fffe0,
     type: 3}
   cam: {fileID: 620155410}
   arTapAndDragObject: {fileID: 608435724}
