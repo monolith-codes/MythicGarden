@@ -14,7 +14,8 @@ public static GameObject wateringCan;
 
 public ARTapAndDragObject arTapAndDragObject;
 private bool isLockedToPot = false;
-float flowerSize;
+private float seedSize;
+private bool startwatering = false;
 
     void Start()
     {
@@ -24,7 +25,6 @@ float flowerSize;
             Debug.LogError("Main camera not found.");
             return;
         }    
-        //this.enabled = false; 
     }
 
     void Update()
@@ -63,7 +63,7 @@ float flowerSize;
             Debug.Log("Watering can is close to the pot.");
             StartCoroutine(MoveCanToPot(potPosition + offset, 0.5f));
             isLockedToPot = true;
-            //InvokeRepeating("WateringFlower", 0f, 0.05f);
+            InvokeRepeating("WateringFlower", 0f, 0.05f);
         }
        
     }
@@ -71,18 +71,18 @@ float flowerSize;
     public void OnClickWaterButton()
     {
         isWateringMode = !isWateringMode;
-        
-        if (!isWateringMode)
+        startwatering = !startwatering;
+
+        if (isWateringMode)
         {
-            /* PouringDirt pouringDirt = Object.FindFirstObjectByType<PouringDirt>();
-            pouringDirt.ResetTilt();
-            Destroy(wateringCan); */
+            /* flowerSize = 0f;
+            Debug.Log("Watering started. Flower size reset to 0."); */
         }
         else
         {
-
+            CancelInvoke("WateringFlower");
+            Debug.Log("Watering stopped.");
         }
-        
     }
     
     private IEnumerator MoveCanToPot(Vector3 targetPos, float duration)
@@ -105,28 +105,26 @@ float flowerSize;
     {
         PouringDirt pouringDirt = Object.FindFirstObjectByType<PouringDirt>();
         float actualtilt = pouringDirt.GetTiltX();
-        float fillSpeed;
-        if(isLockedToPot)
+        float fillSpeed = 0.1f;
+
+        if (isLockedToPot && actualtilt < 0f && seedSize < 100f && startwatering )
         {
-           if(actualtilt < 0f)
+            seedSize += fillSpeed;
+            Debug.Log("Flower size: " + seedSize);
+            if(seedSize >= 100f)
             {
-                fillSpeed = 0.1f;
-                if(actualtilt > 0 && flowerSize < 100f)
-                {
-                    flowerSize += fillSpeed;
-                   /*  if(potMeshes != null && blendindex >= 0)
-                    {
-                        potMeshes.SetBlendShapeWeight(blendindex, earthSize);
-                        potMeshes.updateWhenOffscreen = true;
-                    } */
-                }
-                
-            }
-            else if (flowerSize >= 100f)
-            {
-                CancelInvoke("WateringFlower");
+                GrowPlant growPlant = Object.FindFirstObjectByType<GrowPlant>();
+                growPlant.OnButtonClick();
             }
         }
-        
+        else if (seedSize >= 100f)
+        {
+            CancelInvoke("WateringFlower");
+        }
+    }
+    
+    public float GetSeedSize()
+    {
+        return seedSize;
     }
 }
