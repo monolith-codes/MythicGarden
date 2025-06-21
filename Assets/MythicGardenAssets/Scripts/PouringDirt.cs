@@ -33,9 +33,33 @@ public class PouringDirt : MonoBehaviour
             if (Input.gyro.enabled)
             {
                 Quaternion deviceRotation = Input.gyro.attitude;
-                Vector3 euler = deviceRotation.eulerAngles;
+                Quaternion gyroRotation = GyroToUnity(deviceRotation);
+                Vector3 euler = gyroRotation.eulerAngles;
+                float tiltX;
+                float sensitivity = 2.0f;
+                
+                
 
-                float tiltX = NormalizeAngle(euler.x);
+                switch (Screen.orientation)
+                {
+                    case ScreenOrientation.Portrait:
+                        tiltX = NormalizeAngle(euler.z);
+                        break;
+                    case ScreenOrientation.PortraitUpsideDown:
+                        tiltX = -NormalizeAngle(euler.z);
+                        break;
+                    case ScreenOrientation.LandscapeLeft:
+                        tiltX = NormalizeAngle(euler.y);
+                        break;
+                    case ScreenOrientation.LandscapeRight:
+                        tiltX = -NormalizeAngle(euler.y);
+                        break;
+                    default:
+                        tiltX = NormalizeAngle(euler.z);
+                        break;
+                }
+                tiltX *= sensitivity;
+                tiltX = Mathf.Clamp(tiltX, -90f, 90f);
                 ApplyTiltToSack(tiltX);
                 ApplyTiltToCan(tiltX);
             }
@@ -77,5 +101,10 @@ public class PouringDirt : MonoBehaviour
     public float GetTiltX()
     {
         return SimulatedTiltX;
+    }
+    
+    Quaternion GyroToUnity(Quaternion q)
+    {
+        return new Quaternion(q.x, q.y, -q.z, -q.w);
     }
 }

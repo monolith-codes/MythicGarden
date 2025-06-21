@@ -249,10 +249,11 @@ public class FillDirt : MonoBehaviour
             //Debug.Log("Pot is full.");
         }
         
-        if (earthSize <= 100f && ParticlePrefab != null && actualTilt < 0f)
+        if (earthSize <= 100f && ParticlePrefab != null && actualTilt > 0f)
         {
+            ParticleSystem[] ParticleEmitter = GetComponentsInChildren<ParticleSystem>(PlacedSack.transform);
             Debug.Log("spawning particles.");
-            GameObject particles = Instantiate(ParticlePrefab, pot.transform.position, Quaternion.identity);
+            GameObject particles = Instantiate(ParticlePrefab, PlacedSack.transform.position, Quaternion.identity);
             particles.GetComponent<ParticleSystem>().Play();
             //Destroy(particles, 2f); // Destroy after 2 seconds
         }
