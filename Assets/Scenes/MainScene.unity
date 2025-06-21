@@ -206,6 +206,7 @@ MonoBehaviour:
   distanceFromCamera: 1.5
   offset: {x: 0, y: 0, z: 0}
   arTapAndDragObject: {fileID: 608435724}
+  ParticlePrefab: {fileID: 0}
 --- !u!4 &119634479
 Transform:
   m_ObjectHideFlags: 0
@@ -410,7 +411,7 @@ MonoBehaviour:
   <trackablesChanged>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
-  m_PlanePrefab: {fileID: 3482838890825097264, guid: 046a5b69cef6d2f49b14b9b3f2acbedb,
+  m_PlanePrefab: {fileID: 1585201990951412, guid: a6b7ca1d53c75490595d1f0d5f43be38,
     type: 3}
   m_DetectionMode: -1
 --- !u!114 &354519513
