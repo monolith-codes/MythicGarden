@@ -24,9 +24,13 @@ public class PouringDirt : MonoBehaviour
             if (Input.GetKey(KeyCode.UpArrow)) SimulatedTiltX += 1f;
             if (Input.GetKey(KeyCode.DownArrow)) SimulatedTiltX -= 1f;
 
-            SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -60f, 60f);
+            Debug.Log("SIMULATED TILT X: " + SimulatedTiltX);
+
             ApplyTiltToSack(SimulatedTiltX);
             ApplyTiltToCan(SimulatedTiltX);
+
+            SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -60f, 60f);
+
         }
         else
         {
@@ -37,8 +41,8 @@ public class PouringDirt : MonoBehaviour
                 Vector3 euler = gyroRotation.eulerAngles;
                 float tiltX;
                 float sensitivity = 2.0f;
-                
-                
+
+
 
                 switch (Screen.orientation)
                 {
@@ -75,27 +79,53 @@ public class PouringDirt : MonoBehaviour
     {
         if (FillDirt.PlacedSack != null)
         {
-            FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
+            Debug.Log("Apply TILT TO SACK X: " + tiltX);
+
+            if (tiltX <= 0)
+            {
+                FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);                
+            }
         }
     }
     
     void ApplyTiltToCan(float tiltX)
     {
+
+        Debug.Log("APPLY TILT TO CAN: " + tiltX);
         if (WaterFlower.wateringCan != null)
         {
-            WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);
+
+            if (tiltX <= 0)
+            {
+                WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+                //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+                //WaterFlower.wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, -90f, 0f);
+
+            }
+            else
+            {
+                WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(tiltX, -90f, 0f);
+                //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+
+            }
         }
     }
-    
+
     public void ResetTiltSack()
     {
         FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
-        Debug.Log("Tilt reset to: " + SimulatedTiltX);
+        SimulatedTiltX = 0f;
+        Debug.Log("SACK Tilt reset to: " + SimulatedTiltX);
     }
     public void ResetTiltCan()
     {
-        WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
-        Debug.Log("Tilt reset to: " + SimulatedTiltX);
+        WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+        SimulatedTiltX = 0f;
+        Debug.Log("CAN Tilt reset to: " + SimulatedTiltX);
     }
     
     public float GetTiltX()

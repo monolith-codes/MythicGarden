@@ -74,9 +74,34 @@ public class ARTapAndDragObject : MonoBehaviour
             {
                 
                 Pose hitPose = hits[0].pose;
-                Vector3 worldPosition = hitPose.position;               
-                placedObject = Instantiate(objectToPlace, worldPosition, hitPose.rotation);
-                Debug.Log("Object placed.");
+                Vector3 worldPosition = hitPose.position;
+
+                Debug.Log("HIT POSEEEE: " + worldPosition);
+                Vector3 correctedPosition = worldPosition + new Vector3(0f, .145f, 0f);       
+                Debug.Log("CORRECTED POSEEEE: " + correctedPosition);
+                //gameObject.transform.position = correctedPosition;
+
+
+                //objectToPlace.transform.parent.position = new Vector3(0f, 3f, 0f);
+                objectToPlace.transform.position = new Vector3(0f, .145f, 0f);
+
+                placedObject = Instantiate(objectToPlace, correctedPosition, hitPose.rotation);
+
+
+                
+                if (objectToPlace.transform.parent = null)
+                {
+                    Debug.Log("NO PARENT POSEEEE: " + correctedPosition);
+                }
+                else
+                {
+                    Debug.Log("HAS PARENT POSEEEE"+objectToPlace.transform.parent);
+                }
+
+                Debug.Log("Object placed POSEEEE: "+placedObject.transform.position);
+
+
+                objectToPlace.transform.parent.position =  objectToPlace.transform.parent.position + new Vector3(0f, .145f, 0f);
                 isObjectSelected = true;
             }
         }

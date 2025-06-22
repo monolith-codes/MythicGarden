@@ -42,7 +42,7 @@ public class PlantSeed : MonoBehaviour
             float distance = CheckPlaceDistance(touchPosition);
             //Debug.Log("Distanz zwischen dem Pot und der berührung: " + distance);
 
-            if (earthSize >= 100f && distance < 0.3f)
+            if (earthSize >= 100f && distance < 10f)
             {
                 Vector3 earthPosition = fillDirt.Earth.transform.position;
                 Instantiate(SeedPrefab, earthPosition, Quaternion.identity);

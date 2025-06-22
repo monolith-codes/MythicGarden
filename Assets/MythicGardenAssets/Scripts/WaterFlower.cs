@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Collections;
+using System;
 
 public class WaterFlower : MonoBehaviour
 {
@@ -29,44 +30,66 @@ private bool startwatering = false;
 
     void Update()
     {
-        Vector3 potPosition = arTapAndDragObject.PlacedObject.transform.position;
         Vector3 spawnPosition = cam.transform.position + cam.transform.forward * 1.5f;
-        Quaternion spawnRotation = Quaternion.Euler(0, 180f, 0);
-             
-        if (isWateringMode && wateringCan == null)
-        {
-            Debug.Log("Watering mode activated.");
-            wateringCan = Instantiate(WateringCanPrefab, spawnPosition, spawnRotation);
-            wateringCan.transform.GetChild(0).localRotation = Quaternion.Euler(0, 180f, 0);
-            
-        }
-       else if (!isWateringMode && wateringCan != null)
-        {
-            Debug.Log("Watering mode deactivated.");
-            Destroy(wateringCan);
-            wateringCan = null;
-            //PouringDirt pouringDirt = Object.FindFirstObjectByType<PouringDirt>();
-            //pouringDirt.ResetTilt();
- 
-        }
+        Quaternion spawnRotation = Quaternion.Euler(0f, 0f, 0f);
 
-        if (wateringCan != null)
+
+
+        if (arTapAndDragObject.PlacedObject != null && isWateringMode)
         {
-           wateringCan.transform.SetPositionAndRotation(spawnPosition, Quaternion.Euler(0, 180f, 0));
+
+            //Debug.Log("Watering can rotation: " + wateringCan?.transform.rotation);
+            //Debug.Log("Watering can rotation (Euler): " + wateringCan?.transform.eulerAngles);
+
+            Vector3 offset = new Vector3(0.0f, 0.2f, -0.2f);
+
+            if (isWateringMode && wateringCan != null && isLockedToPot == false)
+            {
+                // Vector3 potPosition = arTapAndDragObject.PlacedObject.transform.position;
+
+                // wateringCan.transform.localRotation = spawnRotation;
+
+                // Debug.Log("INSTANCED CAN WITH ROT2: " + wateringCan.transform.eulerAngles.x);
+
+
+                // Debug.Log("Watering can is close to the pot.");
+                // //StartCoroutine(MoveCanToPot(potPosition + offset, 0.5f));
+                // isLockedToPot = true;
+                // InvokeRepeating("WateringFlower", 0.0f, 0.05f);
+            }
+
+            if (isWateringMode && wateringCan == null)
+            {
+                Vector3 potPosition = arTapAndDragObject.PlacedObject.transform.position;
+                Vector3 potReposition = new Vector3(0.2f, .175f, 0f);
+                Debug.Log("Watering mode activated.");
+                //WateringCanPrefab.transform.parent.localRotation = spawnRotation;
+                WateringCanPrefab.transform.localRotation = spawnRotation;
+                wateringCan = Instantiate(WateringCanPrefab, potPosition + potReposition, spawnRotation);
+                wateringCan.transform.localRotation = spawnRotation;
+
+                // wateringCan.transform.GetChild(0).localRotation = Quaternion.Euler(0, 180f, 0);
+                // wateringCan.transform.localRotation = Quaternion.Euler(0, 180f, 0);
+                // wateringCan.transform.parent.localRotation = Quaternion.Euler(0, 180f, 0); 
+
+                Debug.Log("INSTANCED CAN WITH ROT1: " + wateringCan.transform.eulerAngles.x);
+
+            }
+            else if (!isWateringMode && wateringCan != null)
+            {
+                Debug.Log("Watering mode deactivated.");
+                Destroy(wateringCan);
+                wateringCan = null;
+            }
+
+            //Debug.Log("Watering Can ATTACHED!");
         }
-        Debug.Log("Watering can rotation: " + wateringCan.transform.rotation);
-        Debug.Log("Watering can rotation (Euler): " + wateringCan.transform.eulerAngles);
-        float PotCanDstance = Vector3.Distance(potPosition, wateringCan.transform.position);
-        Vector3 offset = new Vector3(0.0f, 0.2f, -0.2f);
-        if (isWateringMode && wateringCan != null && PotCanDstance < 0.25f)
+        else
         {
-            Debug.Log("Watering can is close to the pot.");
-            StartCoroutine(MoveCanToPot(potPosition + offset, 0.5f));
-            isLockedToPot = true;
-            InvokeRepeating("WateringFlower", 0f, 0.05f);
+            //Debug.Log("WATERCAN Not Ready");
         }
-       
     }
+
     
     public void OnClickWaterButton()
     {
@@ -81,10 +104,12 @@ private bool startwatering = false;
         else
         {
             CancelInvoke("WateringFlower");
+            Destroy(wateringCan);
+            isLockedToPot = false;
             Debug.Log("Watering stopped.");
         }
     }
-    
+
     private IEnumerator MoveCanToPot(Vector3 targetPos, float duration)
     {
         Vector3 startPos = wateringCan.transform.position;
@@ -92,35 +117,79 @@ private bool startwatering = false;
 
         while (elapsed < duration)
         {
+            Debug.Log("Move Can to Pot Routine");
             if (wateringCan == null) yield break;
             wateringCan.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
             elapsed += Time.deltaTime;
+            wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
             yield return null;
         }
 
         wateringCan.transform.position = targetPos;
+
+        wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
+        // wateringCan.transform.parent.localRotation = Quaternion.Euler(0, 180f, 0);
+        
+
     }
-    
+
     private void WateringFlower()
     {
-        PouringDirt pouringDirt = Object.FindFirstObjectByType<PouringDirt>();
-        float actualtilt = pouringDirt.GetTiltX();
-        float fillSpeed = 0.1f;
+        // //float actualtilt = pouringDirt.GetTiltX();
+        // float actualtilt = wateringCan.transform.eulerAngles.x;
 
-        if (isLockedToPot && actualtilt < 0f && seedSize < 100f && startwatering )
-        {
-            seedSize += fillSpeed;
-            Debug.Log("Flower size: " + seedSize);
-            if(seedSize >= 100f)
-            {
-                GrowPlant growPlant = Object.FindFirstObjectByType<GrowPlant>();
-                growPlant.OnButtonClick();
-            }
-        }
-        else if (seedSize >= 100f)
-        {
-            CancelInvoke("WateringFlower");
-        }
+
+        // float fillSpeed = 0.1f;
+
+
+        // Debug.Log("fill TILT: " + actualtilt);
+
+        // if (isLockedToPot && actualtilt < 50f && seedSize < 100f && startwatering)
+        // {
+        //     Debug.Log("IS WATERING CAN :)");
+        // }
+        // else
+        // {
+        //     Debug.Log("Is NOOOOOOT WATERING CAN :(");
+        // }
+
+
+        // // if (isLockedToPot && actualtilt < 0f && seedSize < 100f && startwatering)
+        // // {
+        // //     seedSize += fillSpeed;
+        // //     Debug.Log("Flower size: " + seedSize);
+        // //     if (seedSize >= 100f)
+        // //     {
+        // //         GrowPlant growPlant = Object.FindFirstObjectByType<GrowPlant>();
+        // //         growPlant.OnButtonClick();
+        // //     }
+        // // }
+        // // else if (seedSize >= 100f)
+        // // {
+        // //     CancelInvoke("WateringFlower");
+        // // }
+    }
+
+    public void ApplyTiltToCan(float tiltX)
+    {
+        //  //Debug.Log("APPLY TILT TO CAN: " + tiltX);
+        // if (WaterFlower.wateringCan != null)
+        // {
+
+        //     if (tiltX <= 0)
+        //     {
+        //         //WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+        //         //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+        //         //WaterFlower.wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, -90f, 0f);
+
+        //     }
+        //     else
+        //     {
+        //         //WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(tiltX, -90f, 0f);
+        //         //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
+
+        //     }
+        // }
     }
     
     public float GetSeedSize()
