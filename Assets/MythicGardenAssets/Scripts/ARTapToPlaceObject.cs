@@ -83,7 +83,7 @@ public class ARTapAndDragObject : MonoBehaviour
 
 
                 //objectToPlace.transform.parent.position = new Vector3(0f, 3f, 0f);
-                objectToPlace.transform.position = new Vector3(0f, .145f, 0f);
+                //objectToPlace.transform.position = new Vector3(0f, .145f, 0f);
 
                 placedObject = Instantiate(objectToPlace, correctedPosition, hitPose.rotation);
 
@@ -135,7 +135,7 @@ public class ARTapAndDragObject : MonoBehaviour
         if (raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
         {
             Pose hitPose = hits[0].pose;
-            placedObject.transform.position = hitPose.position;
+            placedObject.transform.position = hitPose.position + new Vector3(0f, .145f, 0f);
             Debug.Log("Object dragged to: " + hitPose.position);
         }
         else

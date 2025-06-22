@@ -191,6 +191,7 @@ public class FillDirt : MonoBehaviour
             Vector3 placedObjectPosition = arTapAndDragObject.PlacedObject.transform.position;
             Debug.Log("PlacedObject position: " + placedObjectPosition);
             earth = Instantiate(earthPrefab, placedObjectPosition, Quaternion.identity);
+            earth.transform.SetParent(pot.transform);
             Debug.Log("Earth object instantiated at pot position: " + pot.transform.position);
 
         }

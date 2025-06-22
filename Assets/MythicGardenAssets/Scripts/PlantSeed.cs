@@ -13,7 +13,7 @@ public class PlantSeed : MonoBehaviour
     private bool isPlanted = false;
     private Vector2 touchPosition;
     private bool isPlantingMode = false;
-
+    private GameObject seed;
 
 
 
@@ -45,7 +45,8 @@ public class PlantSeed : MonoBehaviour
             if (earthSize >= 100f && distance < 10f)
             {
                 Vector3 earthPosition = fillDirt.Earth.transform.position;
-                Instantiate(SeedPrefab, earthPosition, Quaternion.identity);
+                seed = Instantiate(SeedPrefab, earthPosition, Quaternion.identity);
+                seed.transform.SetParent(fillDirt.Earth.transform);
                 isPlanted = true;
                 isPlantingMode = false;
                 Debug.Log("Seed planted.");
