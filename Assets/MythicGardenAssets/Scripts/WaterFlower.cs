@@ -8,21 +8,35 @@ using System;
 public class WaterFlower : MonoBehaviour
 {
 
-public GameObject WateringCanPrefab;
-public GameObject WateringParticlesPrefab;
+    public GameObject WateringCanPrefab;
+    public GameObject WateringParticlesPrefab;
 
-private GameObject WateringParticles;
+    private GameObject WateringParticles;
 
-private bool isWateringMode = false;
-public Camera cam;
-public static GameObject wateringCan;
+    private GameObject waterParticles;
 
-public ARTapAndDragObject arTapAndDragObject;
-private bool isLockedToPot = false;
+    public Camera cam;
+    public static GameObject wateringCan;
 
-private bool WaterEmitting = false;
-private float seedSize;
-private bool startwatering = false;
+    public ARTapAndDragObject arTapAndDragObject;
+
+    public GrowPlant GrowPlantManager;
+    private bool isLockedToPot = false;
+
+    private bool WaterEmitting = false;
+    private bool isWateringMode = false;
+
+    private bool ParticleSystemReady = false;
+
+    private bool startwatering = false;
+
+    private bool plantInGrowProcess = false;
+    private float seedSize;
+
+
+    private int wateringCounter = 0;
+
+    private int growPlantPhase = 0;
 
     void Start()
     {
@@ -31,7 +45,7 @@ private bool startwatering = false;
         {
             Debug.LogError("Main camera not found.");
             return;
-        }    
+        }
     }
 
     void Update()
@@ -61,7 +75,7 @@ private bool startwatering = false;
                 Debug.Log("Watering can is close to the pot.");
                 //StartCoroutine(MoveCanToPot(potPosition + offset, 0.5f));
                 isLockedToPot = true;
-                InvokeRepeating("WateringFlower", 0.0f, 0.05f);
+                InvokeRepeating("WateringFlower", 0.0f, 0.1f);
             }
 
             if (isWateringMode && wateringCan == null)
@@ -96,7 +110,7 @@ private bool startwatering = false;
         }
     }
 
-    
+
     public void OnClickWaterButton()
     {
         isWateringMode = !isWateringMode;
@@ -135,7 +149,7 @@ private bool startwatering = false;
 
         wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, 0f, 0f);
         // wateringCan.transform.parent.localRotation = Quaternion.Euler(0, 180f, 0);
-        
+
 
     }
 
@@ -148,17 +162,56 @@ private bool startwatering = false;
         float fillSpeed = 0.1f;
 
 
-        Debug.Log("fill TILT: " + actualtilt);
+        //Debug.Log("fill TILT: " + actualtilt);
 
-        if (isLockedToPot && actualtilt > 50f && seedSize < 100f && startwatering)
+
+        if (!plantInGrowProcess)
         {
-            Debug.Log("IS WATERING CAN :)");
+            if (wateringCounter >= 50)
+            {
+                Debug.Log("ENOUGH WATER!!!");
+                Debug.Log("ENOUGH WATER!!!");
+                plantInGrowProcess = true;
+                StartGrowingPhase();
+            }
+
+            if (isLockedToPot && seedSize < 100f && startwatering && !ParticleSystemReady)
+            {
+                SetupWaterParticles();
+            }
+
+            if (isLockedToPot && actualtilt > 30f && seedSize < 100f && startwatering)
+            {
+                DoWaterParticles();
+                Debug.Log("IS WATERING CAN :)");
+            }
+            else if (isLockedToPot && actualtilt < 30f && seedSize < 100f && WaterEmitting)
+            {
+                var waterEmission = waterParticles.GetComponent<ParticleSystem>().emission;
+                waterEmission.enabled = false;
+                WaterEmitting = false;
+                //Debug.Log("Is NOOOOOOT WATERING CAN :(");
+            }
         }
         else
         {
-            DoWaterParticles();
-            Debug.Log("Is NOOOOOOT WATERING CAN :(");
+            if (isLockedToPot && actualtilt < 30f && seedSize < 100f && WaterEmitting)
+            {
+                var waterEmission = waterParticles.GetComponent<ParticleSystem>().emission;
+                waterEmission.enabled = false;
+                Debug.Log("STOOOPING WATERING CAN DURING GROW PHASE!");
+                WaterEmitting = false;
+            }
+            else if (isLockedToPot && actualtilt > 30f && seedSize < 100f && startwatering)
+            {
+                var waterEmission = waterParticles.GetComponent<ParticleSystem>().emission;
+                waterEmission.enabled = true;
+                Debug.Log("IS WATERING CAN :)");
+            }
         }
+
+
+
 
 
         // if (isLockedToPot && actualtilt < 0f && seedSize < 100f && startwatering)
@@ -177,30 +230,63 @@ private bool startwatering = false;
         // }
     }
 
-    private void DoWaterParticles()
+    private void SetupWaterParticles()
     {
-        
-
-        if (!WaterEmitting)
+        if (!ParticleSystemReady)
         {
-            WaterEmitting = true;
-            //WateringParticlesPrefab.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
             Quaternion rotation = Quaternion.Euler(-30f, -90f, 0f);
 
             Vector3 changePosition = wateringCan.transform.position + new Vector3(-.155f, .06f, 0f);
 
-            GameObject particles = Instantiate(WateringParticlesPrefab, changePosition, rotation);
+            waterParticles = Instantiate(WateringParticlesPrefab, changePosition, rotation);
 
 
-            particles.transform.SetParent(wateringCan.transform);
+            var waterEmission = waterParticles.GetComponent<ParticleSystem>().emission;
+
+            waterEmission.enabled = false;
+
+
+
+            waterParticles.transform.SetParent(wateringCan.transform);
+
+            Debug.Log("Setup Water Particle Ready PLAYER");
+
+            ParticleSystemReady = true;
         }
+    }
 
+    private void DoWaterParticles()
+    {
 
+        wateringCounter = wateringCounter + 1;
+        if (ParticleSystemReady && !WaterEmitting)
+        {
+            WaterEmitting = true;
+            Debug.Log("START PARTICLE PLAYER");
+            var waterEmission = waterParticles.GetComponent<ParticleSystem>().emission;
+
+            waterEmission.enabled = true;
+            //WateringParticlesPrefab.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
+
+        }
         //WateringParticles.transform.localRotation =  Quaternion.Euler(0f, 0f, 90f);
     }
-    
+
+    private void StartGrowingPhase()
+    {
+        growPlantPhase++;
+        Debug.Log("START GROWING PHASE: " + growPlantPhase);
+        GrowPlantManager.executePlantGrowPhase(growPlantPhase);
+        wateringCounter = 0;
+    }
+
     public float GetSeedSize()
     {
         return seedSize;
+    }
+
+    public void FreePlantGrow()
+    {
+        plantInGrowProcess = false;
     }
 }

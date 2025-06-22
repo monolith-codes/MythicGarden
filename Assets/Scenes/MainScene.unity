@@ -153,6 +153,7 @@ MonoBehaviour:
   PunkleBerryStem: {fileID: 6734543539469933197, guid: 9383e546f260b354e84605324a247e38,
     type: 3}
   PotPlaceManager: {fileID: 608435724}
+  WaterManager: {fileID: 987424100}
 --- !u!4 &89144992
 Transform:
   m_ObjectHideFlags: 0
@@ -2266,6 +2267,7 @@ MonoBehaviour:
     type: 3}
   cam: {fileID: 620155410}
   arTapAndDragObject: {fileID: 608435724}
+  GrowPlantManager: {fileID: 89144991}
 --- !u!4 &987424101
 Transform:
   m_ObjectHideFlags: 0

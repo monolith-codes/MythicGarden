@@ -9,41 +9,115 @@ public class GrowPlant : MonoBehaviour
 
     public ARTapAndDragObject PotPlaceManager;
 
+    public WaterFlower WaterManager;
+
     bool isStemGrowing = false;
 
     bool isPlantLeafGrowing = false;
     bool isPlantBending = false;
 
+    bool plantsSpawned = false;
+
+    float StemProgress = 100.0f;
+    float StemSwirlProgress = 0f;
+
+    float FlowerProgress = 0f;
+
+
+
+    public GameObject PunkleBerryBaseInstance;
+
+    public SkinnedMeshRenderer PunkleBerryBaseMesh;
+
+    public GameObject PunkleBerrySteamInstance;
+
+    public SkinnedMeshRenderer PunkleBerrySteamMesh;
+
     // Called when the grow button is clicked
     public void OnButtonClick()
     {
         Debug.Log("Grow Plant Button Pressed :)");
-        StartCoroutine(GrowPlantBaseCoroutine());
+
     }
 
     // Coroutine for growing the plant
-    private IEnumerator GrowPlantBaseCoroutine()
+    private IEnumerator GrowPlantBaseCoroutine(int index)
     {
-        Vector3 PotPosition = PotPlaceManager.PlacedObject.transform.position;
-
-        GameObject PunkleBerryBaseInstance = Instantiate(PunkleBerryBase, PotPosition, Quaternion.identity);
-
-        SkinnedMeshRenderer PunkleBerryMesh = PunkleBerryBaseInstance.GetComponent<SkinnedMeshRenderer>();
-
-        PunkleBerryMesh.SetBlendShapeWeight(1, 100.0f);
-
-        for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
+        if (!plantsSpawned)
         {
-            PunkleBerryMesh.SetBlendShapeWeight(1, i);
-            if (i <= 50.0f && isStemGrowing == false)
-            {
-                StartCoroutine(GrowPlantSteamCoroutine());
-                isStemGrowing = true;
-            }
-            yield return new WaitForSeconds(0.1f);
+            plantsSpawned = true;
+            Vector3 PotPosition = PotPlaceManager.PlacedObject.transform.position;
+
+            PunkleBerryBaseInstance = Instantiate(PunkleBerryBase, PotPosition, Quaternion.identity);
+
+            PunkleBerryBaseMesh = PunkleBerryBaseInstance.GetComponent<SkinnedMeshRenderer>();
+
+            PunkleBerrySteamInstance = Instantiate(PunkleBerryStem, PotPosition, Quaternion.identity);
+            PunkleBerrySteamMesh = PunkleBerrySteamInstance.GetComponent<SkinnedMeshRenderer>();
         }
 
-        Debug.Log("Plant Growth Complete.");
+        if (index == 1)
+        {
+
+            Debug.Log("Starting Grow Plant PHASE 111!");
+            //PunkleBerryBaseMesh.SetBlendShapeWeight(1, 100.0f);
+
+
+
+            for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
+            {
+                PunkleBerryBaseMesh.SetBlendShapeWeight(1, i);
+
+                StemProgress -= 0.25f;
+                PunkleBerrySteamMesh.SetBlendShapeWeight(0, StemProgress);
+
+                if (i <= 50f)
+                {
+                    StemSwirlProgress += 0.5f;
+                    PunkleBerrySteamMesh.SetBlendShapeWeight(2, StemSwirlProgress);
+                }
+
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+
+            WaterManager.FreePlantGrow();
+            Debug.Log("Plant Growth Complete.");
+        }
+        else if (index == 2)
+        {
+
+            Debug.Log("Starting Grow Plant PHASE 2222!");
+
+            for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
+            {
+                if (StemProgress >= 0.0f && i >= 50)
+                {
+                    StemProgress -= 0.5f;
+                    PunkleBerrySteamMesh.SetBlendShapeWeight(0, StemProgress);
+                    StemSwirlProgress += 0.5f;
+                    PunkleBerrySteamMesh.SetBlendShapeWeight(2, StemSwirlProgress);
+                }
+
+                Debug.Log("FLOWER GROW: " + FlowerProgress);
+                Debug.Log("i GROW: " + i);
+
+
+                if (i <= 75.0f && FlowerProgress <= 100f)
+                {
+
+                    Debug.Log("STARTING FLOWER GROW");
+                    FlowerProgress += 1.1f;
+                    PunkleBerrySteamMesh.SetBlendShapeWeight(1, FlowerProgress);
+                }
+
+                yield return new WaitForSeconds(0.1f);
+            }
+            
+            WaterManager.FreePlantGrow();
+            
+        }
     }
 
     private IEnumerator GrowPlantSteamCoroutine()
@@ -92,5 +166,10 @@ public class GrowPlant : MonoBehaviour
             PunkleBerrySteamMesh.SetBlendShapeWeight(2, i);
             yield return new WaitForSeconds(0.1f);
         }
+    }
+
+    public void executePlantGrowPhase(int i)
+    {
+         StartCoroutine(GrowPlantBaseCoroutine(i));
     }
 }
