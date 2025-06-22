@@ -2262,6 +2262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WateringCanPrefab: {fileID: 5926056019424075515, guid: 41475265f14441548a8a776fab2fffe0,
     type: 3}
+  WateringParticlesPrefab: {fileID: 2719743927641871792, guid: 7a89f533583187747acf5d4e271b078b,
+    type: 3}
   cam: {fileID: 620155410}
   arTapAndDragObject: {fileID: 608435724}
 --- !u!4 &987424101
@@ -3177,6 +3179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulatedTiltX: 0
+  FillDirtObject: {fileID: 119634478}
+  WaterFlowerObject: {fileID: 987424100}
 --- !u!4 &1933276197
 Transform:
   m_ObjectHideFlags: 0

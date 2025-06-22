@@ -42,17 +42,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 1363c0d17e2ce2445a46464b094305e6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.9132173
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1363c0d17e2ce2445a46464b094305e6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.15099998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1363c0d17e2ce2445a46464b094305e6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.6380022
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1363c0d17e2ce2445a46464b094305e6,
         type: 3}
@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 820c3f4e6681cf8498c5958567830193, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 1363c0d17e2ce2445a46464b094305e6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3696962226972163572, guid: 99e8063a242c17c469ba808c4dc815b6,
+        type: 3}
     - target: {fileID: 919132149155446097, guid: 1363c0d17e2ce2445a46464b094305e6,
         type: 3}
       propertyPath: m_Name
@@ -137,3 +143,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SimulatedTiltX: 0
+  FillDirtObject: {fileID: 0}
+  WaterFlowerObject: {fileID: 0}

@@ -66,8 +66,9 @@ public class FillDirt : MonoBehaviour
         {
             if (!isSackLockedToPot)
             {
-                Vector3 targetPosition = cam.transform.position + cam.transform.forward * distanceFromCamera + offset;
+                Vector3 targetPosition = pot.transform.position + new Vector3(0.25f, 0.05f, 0f);
                 PlacedSack.transform.position = targetPosition;
+                PlacedSack.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
             }
 
             Vector3 placedObjectPosition = pot.transform.position;
@@ -81,10 +82,10 @@ public class FillDirt : MonoBehaviour
             {
                 isSackLockedToPot = true;
                 Vector3 localOffset = new Vector3(0f, 0.2f, -0.2f);
-                Vector3 targetPos = pot.transform.TransformPoint(localOffset);
+                Vector3 targetPos = pot.transform.position + new Vector3(0.25f, 0.05f, 0f);
                 //PlacedSack.transform.position = targetPos;
                 PlacedSack.transform.LookAt(pot.transform.position);
-                StartCoroutine(MoveSackToPot(targetPos + new Vector3(0.0f, 0.2f, -0.25f), 1f));
+                StartCoroutine(MoveSackToPot(targetPos, 1f));
             }
             else if (PotSackDistance >= 5f && isSackLockedToPot)
             {
@@ -125,9 +126,15 @@ public class FillDirt : MonoBehaviour
                 //REMOVER
             }
 
-            Vector3 spawnPosition = cam.transform.position + cam.transform.forward * 1.5f;
-            Quaternion spawnRotation = Quaternion.LookRotation(-cam.transform.forward);
-            PlacedSack = Instantiate(SackPrefab, spawnPosition, spawnRotation);
+            Vector3 spawnPosition = pot.transform.position + new Vector3(0.25f, 0.05f, 0f);
+
+            //SackPrefab.transform.position = spawnPosition;
+
+            SackPrefab.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+
+            PlacedSack = Instantiate(SackPrefab, spawnPosition, Quaternion.Euler(0f, 90f, 0f));
+
+            SackPrefab.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
             
             //Debug.Log("Object placed in front of camera.");
 
@@ -170,9 +177,9 @@ public class FillDirt : MonoBehaviour
         
         PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
         //float actualTilt = pouringDirt.GetTiltX();
-        float actualTilt = PlacedSack.transform.eulerAngles.x;
+        float actualTilt = PlacedSack.transform.eulerAngles.z;
 
-        Debug.Log("TILT: " + PlacedSack.transform.eulerAngles.x);
+        Debug.Log("TILT: " + PlacedSack.transform.eulerAngles.z);
 
         if (pot == null)
         {

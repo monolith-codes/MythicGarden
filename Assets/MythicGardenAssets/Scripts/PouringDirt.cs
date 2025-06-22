@@ -1,9 +1,15 @@
 using Unity.Burst;
 using UnityEngine;
 
+
+
 public class PouringDirt : MonoBehaviour
 {
     public float SimulatedTiltX = 0f;
+
+    public FillDirt FillDirtObject;
+    public WaterFlower WaterFlowerObject;
+
 
     void Start()
     {
@@ -19,12 +25,12 @@ public class PouringDirt : MonoBehaviour
 
     void Update()
     {
-        if (Application.isEditor && !Application.isMobilePlatform)
+        if (Application.isEditor && !Application.isMobilePlatform && (FillDirt.PlacedSack || WaterFlower.wateringCan) )
         {
             if (Input.GetKey(KeyCode.UpArrow)) SimulatedTiltX += 1f;
             if (Input.GetKey(KeyCode.DownArrow)) SimulatedTiltX -= 1f;
 
-            Debug.Log("SIMULATED TILT X: " + SimulatedTiltX);
+            //Debug.Log("SIMULATED TILT X: " + SimulatedTiltX);
 
             ApplyTiltToSack(SimulatedTiltX);
             ApplyTiltToCan(SimulatedTiltX);
@@ -34,6 +40,12 @@ public class PouringDirt : MonoBehaviour
         }
         else
         {
+
+            if (Application.isEditor && !Application.isMobilePlatform && !(FillDirt.PlacedSack && WaterFlower.wateringCan))
+            {
+                SimulatedTiltX = 0f;
+            }
+
             if (Input.gyro.enabled)
             {
                 Quaternion deviceRotation = Input.gyro.attitude;
@@ -87,15 +99,15 @@ public class PouringDirt : MonoBehaviour
             }
             else
             {
-                FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(tiltX, 0f, 0f);                
+                FillDirt.PlacedSack.transform.localRotation = Quaternion.Euler(0f, 0f, tiltX);
             }
         }
     }
-    
+
     void ApplyTiltToCan(float tiltX)
     {
 
-        Debug.Log("APPLY TILT TO CAN: " + tiltX);
+        //Debug.Log("APPLY TILT TO CAN: " + tiltX);
         if (WaterFlower.wateringCan != null)
         {
 
@@ -127,12 +139,12 @@ public class PouringDirt : MonoBehaviour
         SimulatedTiltX = 0f;
         Debug.Log("CAN Tilt reset to: " + SimulatedTiltX);
     }
-    
+
     public float GetTiltX()
     {
         return SimulatedTiltX;
     }
-    
+
     Quaternion GyroToUnity(Quaternion q)
     {
         return new Quaternion(q.x, q.y, -q.z, -q.w);
