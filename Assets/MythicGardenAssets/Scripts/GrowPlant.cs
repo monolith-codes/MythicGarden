@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -33,41 +32,27 @@ public class GrowPlant : MonoBehaviour
 
     public SkinnedMeshRenderer PunkleBerrySteamMesh;
 
-    // Called when the grow button is clicked
-    public void OnButtonClick()
-    {
-        Debug.Log("Grow Plant Button Pressed :)");
-
-    }
-
-    // Coroutine for growing the plant
     private IEnumerator GrowPlantBaseCoroutine(int index)
     {
         if (!plantsSpawned)
         {
             plantsSpawned = true;
             Vector3 PotPosition = PotPlaceManager.PlacedObject.transform.position;
-
             PunkleBerryBaseInstance = Instantiate(PunkleBerryBase, PotPosition, Quaternion.identity);
-
+            PunkleBerryBaseInstance.transform.SetParent(PotPlaceManager.PlacedObject.transform);
             PunkleBerryBaseMesh = PunkleBerryBaseInstance.GetComponent<SkinnedMeshRenderer>();
-
             PunkleBerrySteamInstance = Instantiate(PunkleBerryStem, PotPosition, Quaternion.identity);
+            PunkleBerrySteamInstance.transform.SetParent(PotPlaceManager.PlacedObject.transform);
             PunkleBerrySteamMesh = PunkleBerrySteamInstance.GetComponent<SkinnedMeshRenderer>();
         }
 
         if (index == 1)
         {
-
             Debug.Log("Starting Grow Plant PHASE 111!");
-            //PunkleBerryBaseMesh.SetBlendShapeWeight(1, 100.0f);
-
-
 
             for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
             {
                 PunkleBerryBaseMesh.SetBlendShapeWeight(1, i);
-
                 StemProgress -= 0.25f;
                 PunkleBerrySteamMesh.SetBlendShapeWeight(0, StemProgress);
 
@@ -76,20 +61,12 @@ public class GrowPlant : MonoBehaviour
                     StemSwirlProgress += 0.5f;
                     PunkleBerrySteamMesh.SetBlendShapeWeight(2, StemSwirlProgress);
                 }
-
-
                 yield return new WaitForSeconds(0.1f);
             }
-
-
             WaterManager.FreePlantGrow();
-            Debug.Log("Plant Growth Complete.");
         }
         else if (index == 2)
         {
-
-            Debug.Log("Starting Grow Plant PHASE 2222!");
-
             for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
             {
                 if (StemProgress >= 0.0f && i >= 50)
@@ -99,24 +76,15 @@ public class GrowPlant : MonoBehaviour
                     StemSwirlProgress += 0.5f;
                     PunkleBerrySteamMesh.SetBlendShapeWeight(2, StemSwirlProgress);
                 }
-
-                Debug.Log("FLOWER GROW: " + FlowerProgress);
-                Debug.Log("i GROW: " + i);
-
-
                 if (i <= 75.0f && FlowerProgress <= 100f)
                 {
-
-                    Debug.Log("STARTING FLOWER GROW");
                     FlowerProgress += 1.1f;
                     PunkleBerrySteamMesh.SetBlendShapeWeight(1, FlowerProgress);
                 }
 
                 yield return new WaitForSeconds(0.1f);
             }
-            
             WaterManager.FreePlantGrow();
-            
         }
     }
 
@@ -125,7 +93,6 @@ public class GrowPlant : MonoBehaviour
         Vector3 PotPosition = PotPlaceManager.PlacedObject.transform.position;
         GameObject PunkleBerrySteamInstance = Instantiate(PunkleBerryStem, PotPosition, Quaternion.identity);
         SkinnedMeshRenderer PunkleBerrySteamMesh = PunkleBerrySteamInstance.GetComponent<SkinnedMeshRenderer>();
-
         PunkleBerrySteamMesh.SetBlendShapeWeight(0, 100.0f);
 
         for (float i = 100.0f; i >= 0.0f; i -= 0.5f)
@@ -149,8 +116,6 @@ public class GrowPlant : MonoBehaviour
 
     private IEnumerator GrowPlantLeafCoroutine(SkinnedMeshRenderer PunkleBerrySteamMesh)
     {
-
-
         for (float i = 0.0f; i <= 100.0f; i += 0.5f)
         {
             PunkleBerrySteamMesh.SetBlendShapeWeight(1, i);
@@ -160,7 +125,6 @@ public class GrowPlant : MonoBehaviour
 
     private IEnumerator BendPlantCoroutine(SkinnedMeshRenderer PunkleBerrySteamMesh)
     {
-
         for (float i = 0.0f; i <= 100.0f; i += 0.5f)
         {
             PunkleBerrySteamMesh.SetBlendShapeWeight(2, i);

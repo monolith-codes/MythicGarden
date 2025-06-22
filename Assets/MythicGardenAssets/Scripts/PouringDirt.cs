@@ -29,14 +29,9 @@ public class PouringDirt : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.UpArrow)) SimulatedTiltX += 1f;
             if (Input.GetKey(KeyCode.DownArrow)) SimulatedTiltX -= 1f;
-
-            //Debug.Log("SIMULATED TILT X: " + SimulatedTiltX);
-
             ApplyTiltToSack(SimulatedTiltX);
             ApplyTiltToCan(SimulatedTiltX);
-
             SimulatedTiltX = Mathf.Clamp(SimulatedTiltX, -60f, 60f);
-
         }
         else
         {
@@ -53,8 +48,6 @@ public class PouringDirt : MonoBehaviour
                 Vector3 euler = gyroRotation.eulerAngles;
                 float tiltX;
                 float sensitivity = 2.0f;
-
-
 
                 switch (Screen.orientation)
                 {
@@ -106,23 +99,16 @@ public class PouringDirt : MonoBehaviour
 
     void ApplyTiltToCan(float tiltX)
     {
-
-        //Debug.Log("APPLY TILT TO CAN: " + tiltX);
         if (WaterFlower.wateringCan != null)
         {
 
             if (tiltX <= 0)
             {
                 WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-                //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-                //WaterFlower.wateringCan.transform.parent.localRotation = Quaternion.Euler(0f, -90f, 0f);
-
             }
             else
             {
                 WaterFlower.wateringCan.transform.localRotation = Quaternion.Euler(tiltX, -90f, 0f);
-                //WaterFlower.WateringCanPrefab.transform.localRotation = Quaternion.Euler(0f, -90f, 0f);
-
             }
         }
     }

@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class FillDirt : MonoBehaviour
@@ -21,7 +20,6 @@ public class FillDirt : MonoBehaviour
         get { return earth; }
         
     }
-    
     public float distanceFromCamera = 1.5f;
     public Vector3 offset = Vector3.zero;
 
@@ -31,18 +29,11 @@ public class FillDirt : MonoBehaviour
     
     public GameObject ParticlePrefab;
 
-
-
-    void Start()
-    {
-    
-        
-        
+    void Start(){
         if (SackPrefab == null)
         {
             Debug.LogError("SackPrefab not found in Resources folder.");
         }
-        
         cam = Camera.main;
         if (cam == null)
         {
@@ -59,7 +50,6 @@ public class FillDirt : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("❌ PlacedObject is null — no pot selected?");
             return;
         }
         if (PlacedSack != null && cam != null)
@@ -83,7 +73,6 @@ public class FillDirt : MonoBehaviour
                 isSackLockedToPot = true;
                 Vector3 localOffset = new Vector3(0f, 0.2f, -0.2f);
                 Vector3 targetPos = pot.transform.position + new Vector3(0.25f, 0.05f, 0f);
-                //PlacedSack.transform.position = targetPos;
                 PlacedSack.transform.LookAt(pot.transform.position);
                 StartCoroutine(MoveSackToPot(targetPos, 1f));
             }
@@ -92,8 +81,6 @@ public class FillDirt : MonoBehaviour
                 isSackLockedToPot = false;
                 CancelInvoke("FillPot");
             }
-           // Debug.Log("Das ist meiine Aktuelle Zielposition.Zielposition Zielposition Zielposition" + pot.transform.position);
-        // Debug.Log("Das ist meine Sack. Position Sack. Position Sack. Position Sack. Position " + PlacedSack.transform.position);
         }
     }
 
@@ -105,7 +92,6 @@ public class FillDirt : MonoBehaviour
             return;
         }
         
-
         isPouring = !isPouring;
 
         if (isPouring)
@@ -113,59 +99,34 @@ public class FillDirt : MonoBehaviour
 
             if (PlacedSack != null)
             {
-
                 PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
                 if (pouringDirt != null)
                 {
                     pouringDirt.ResetTiltSack();
                 }
-
                 Destroy(PlacedSack);
-                
-
-                //REMOVER
             }
 
             Vector3 spawnPosition = pot.transform.position + new Vector3(0.25f, 0.05f, 0f);
-
-            //SackPrefab.transform.position = spawnPosition;
-
             SackPrefab.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
-
             PlacedSack = Instantiate(SackPrefab, spawnPosition, Quaternion.Euler(0f, 90f, 0f));
-
             SackPrefab.transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
-            
-            //Debug.Log("Object placed in front of camera.");
-
             PouringDirt newPouringDirt = PlacedSack.GetComponent<PouringDirt>();
-            //Debug.Log("PouringDirt component found. Wo ist mein Sack" + newPouringDirt.name);
-            
             if (newPouringDirt != null)
             {
-                //Debug.Log("PouringDirt component found. Der wird jetzt mal was machen.");
                 newPouringDirt.ResetTiltSack();
                 newPouringDirt.enabled = true;
             }
-            else
-            {
-                //Debug.LogError("PouringDirt component not found on the instantiated object. Warum nicht?");
-            }
-            
-            
-
         }
         else
         {
             if (PlacedSack != null)
             {
                 PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
-
                 if (pouringDirt != null)
                 {
                     pouringDirt.ResetTiltSack(); 
                 }
-
                 Destroy(PlacedSack);
                 PlacedSack = null;
             }
@@ -174,16 +135,11 @@ public class FillDirt : MonoBehaviour
     
     public void FillPot()
     {
-        
         PouringDirt pouringDirt = PlacedSack.GetComponent<PouringDirt>();
-        //float actualTilt = pouringDirt.GetTiltX();
         float actualTilt = PlacedSack.transform.eulerAngles.z;
-
         Debug.Log("TILT: " + PlacedSack.transform.eulerAngles.z);
-
         if (pot == null)
         {
-            //Debug.Log("ist mein pot da ????????????????????????????????????????????");
             return;
         }
         if (earth == null && arTapAndDragObject != null && arTapAndDragObject.PlacedObject != null)
@@ -195,59 +151,30 @@ public class FillDirt : MonoBehaviour
             Debug.Log("Earth object instantiated at pot position: " + pot.transform.position);
 
         }
-        //Debug.Log("Earth object found: found: found: found: found: found: found: found: found: found: " + (earth != null));
         
-
         SkinnedMeshRenderer potMeshes = earth.GetComponent<SkinnedMeshRenderer>();
-
-       /*  if (potMeshes != null && potMeshes.sharedMesh != null)
-        {
-            // Clone the mesh so the blendshape changes are unique to this instance
-            Mesh runtimeMesh = Instantiate(potMeshes.sharedMesh);
-            runtimeMesh.name = potMeshes.sharedMesh.name + "_Clone";
-
-            potMeshes.sharedMesh = runtimeMesh;
-
-            Debug.Log("✅ Assigned unique runtime mesh: " + runtimeMesh.name);
-        } */
         Mesh meshAtRuntime = potMeshes.sharedMesh;
-        //Debug.Log("Runtime Mesh Name: " + meshAtRuntime.name);
-        //Debug.Log("BlendShape Count (runtime): " + meshAtRuntime.blendShapeCount);
-        //Debug.Log("Earth GameObject Name: " + earth.name);
+      
         if (potMeshes == null)
         {
             Debug.LogError("❌ potMeshes is NULL — SkinnedMeshRenderer not found on 'neues_dirt'");
             return;
         }
 
-        for (int i = 0; i < meshAtRuntime.blendShapeCount; i++)
-        {
-            //Debug.Log($"BlendShape {i}: {meshAtRuntime.GetBlendShapeName(i)}");
-        }
-       /*  Debug.Log("BlendShape count: " + potMeshes.sharedMesh.blendShapeCount);
-        Debug.Log("BlendShape name at 0: " + potMeshes.sharedMesh.GetBlendShapeName(0));
-        Debug.Log("wie viel erde hab ich gerade in meinem eimer?: " + potMeshes.GetBlendShapeWeight(0));
-        Debug.Log("Mesh instance ID: " + potMeshes.GetInstanceID()); */
-        
         int blendindex = potMeshes.sharedMesh.GetBlendShapeIndex("Full");
-        foreach (Transform t in pot.GetComponentsInChildren<Transform>())
-        {
-            //Debug.Log("Child: chiild  chiild chiild chiild chiild chiild" + t.name);
-        }
-        
         float fillSpeed = 0f;
 
         if (actualTilt > 0f && actualTilt <= 30f)
         {
-            fillSpeed = 1.0f; // Slow
+            fillSpeed = 1.0f;
         }
         else if (actualTilt > 30f && actualTilt <= 60f)
         {
-            fillSpeed = 2.0f; // Medium
+            fillSpeed = 2.0f;
         }
         else if (actualTilt > 60f)
         {
-            fillSpeed = 3.0f; // Fast
+            fillSpeed = 3.0f;
         }
 
         if (fillSpeed > 0f && earthSize < 100f)
@@ -255,7 +182,6 @@ public class FillDirt : MonoBehaviour
             earthSize += fillSpeed;
            if(potMeshes != null && blendindex >= 0)
             {
-                Debug.Log("Filling the Earth Up!!");
                 potMeshes.SetBlendShapeWeight(blendindex, earthSize);
                 potMeshes.updateWhenOffscreen = true;
             }
@@ -264,19 +190,6 @@ public class FillDirt : MonoBehaviour
         else if (earthSize >= 100f)
         {
             CancelInvoke("FillPot");
-            //Debug.Log("Pot is full.");
-        }
-        
-        if (earthSize <= 100f && ParticlePrefab != null && actualTilt > 0f)
-        {
-
-            // Particle System
-
-            // ParticleSystem[] ParticleEmitter = GetComponentsInChildren<ParticleSystem>(PlacedSack.transform);
-            // Debug.Log("spawning particles.");
-            // GameObject particles = Instantiate(ParticlePrefab, PlacedSack.transform.position, Quaternion.identity);
-            // particles.GetComponent<ParticleSystem>().Play();
-            //Destroy(particles, 2f); // Destroy after 2 seconds
         }
     }
 
@@ -287,7 +200,7 @@ public class FillDirt : MonoBehaviour
     
     private IEnumerator MoveSackToPot(Vector3 targetPos, float duration)
     {
-        isSackLockedToPot = true; // Lock right away so Update doesn't interfere
+        isSackLockedToPot = true;
         Vector3 startPos = PlacedSack.transform.position;
         float elapsed = 0f;
 

@@ -17,18 +17,15 @@ public class ARAutoPlaceOnPlane : MonoBehaviour
     {
         if (isPlaced) return;
 
-        // Only raycast if there's at least one plane detected
         if (planeManager.trackables.count > 0)
         {
             Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
             if (raycastManager.Raycast(screenCenter, hits, TrackableType.PlaneWithinPolygon))
             {
                 Pose hitPose = hits[0].pose;
-
                 spawnedObject = Instantiate(objectToPlace, hitPose.position, hitPose.rotation);
                 isPlaced = true;
 
-                // Optionally disable plane visualization after placing
                 foreach (var plane in planeManager.trackables)
                 {
                     plane.gameObject.SetActive(false);

@@ -29,18 +29,13 @@ public class PlantSeed : MonoBehaviour
         }
         else
         {
-            return; // Kein Touch – nicht weiter prüfen
+            return; 
         }
 
         if (!isPlantingMode || isPlanted) return;
-
-        
             touchPosition = Input.mousePosition;
-            Debug.Log("Touch position: " + touchPosition);
-
             float earthSize = fillDirt.GetEarthSize();
             float distance = CheckPlaceDistance(touchPosition);
-            //Debug.Log("Distanz zwischen dem Pot und der berührung: " + distance);
 
             if (earthSize >= 100f && distance < 10f)
             {
@@ -49,11 +44,6 @@ public class PlantSeed : MonoBehaviour
                 seed.transform.SetParent(fillDirt.Earth.transform);
                 isPlanted = true;
                 isPlantingMode = false;
-                Debug.Log("Seed planted.");
-            }
-            else if (earthSize < 100f)
-            {
-                //Debug.Log("Not enough earth to plant.");
             }
             else
             {
@@ -64,7 +54,6 @@ public class PlantSeed : MonoBehaviour
     public void OnButtonClick()
     {
         isPlantingMode = !isPlantingMode;
-        Debug.Log(isPlantingMode ? "Planting mode enabled." : "Planting mode disabled.");
     }
     
     public float CheckPlaceDistance(Vector2 touchPosition)
@@ -72,18 +61,15 @@ public class PlantSeed : MonoBehaviour
         float touchPlantDistance = Mathf.Infinity;
         if (raycastManager == null)
         {
-            Debug.LogError("RaycastManager is not assigned!");
             return Mathf.Infinity;
         }
         
         if (fillDirt == null)
         {
-            Debug.LogError("fillDirt is not assigned!");
             return touchPlantDistance;
         }
         if (fillDirt.Earth == null)
         {
-            Debug.LogWarning("fillDirt.Earth is null - can't calculate distance yet.");
             return touchPlantDistance;
         }
         
@@ -91,12 +77,10 @@ public class PlantSeed : MonoBehaviour
         {
             Vector3 earthPosition = fillDirt.Earth.transform.position;
             Pose hitPose = hits[0].pose;
-            Debug.Log("Raycast hit detected at position: " + hitPose.position);
             Vector3 worldPosition = hitPose.position;
             touchPlantDistance = Vector3.Distance(worldPosition, earthPosition);
         } else if(!raycastManager.Raycast(touchPosition, hits, TrackableType.PlaneWithinPolygon))
         {
-            Debug.Log("Ich konnte keine Raycast-Hits finden. Warum wurde niix getroffen?");
             return touchPlantDistance;
         }
         return touchPlantDistance;
